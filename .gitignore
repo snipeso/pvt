@@ -1,0 +1,4 @@
+env
+*.pyc
+output
+longword.py

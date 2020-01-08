@@ -16,7 +16,7 @@ class Screen:
             self.window, height=CONF["fixation"]["height"],
             width=CONF["fixation"]["width"],
             fillColor=CONF["fixation"]["fillColor"],
-            lineColor=CONF["fixation"]["lineColor"],
+            lineColor=CONF["screen"]["color"],
             units=CONF["screen"]["units"])
 
         # Setup word and tasks
@@ -34,7 +34,8 @@ class Screen:
         # setup overview info
         self.task = visual.TextStim(self.window,
                                     text=CONF["task"]["name"],
-                                    # anchorHoriz="center", TODO: get Simone's help
+                                    # alignHoriz="center",
+                                    # anchorHoriz="center",  # TODO: get Simone's help
                                     # alignText="center",
                                     height=.3,
                                     )
@@ -71,20 +72,26 @@ class Screen:
         self.fixation_box.draw()
         self.window.flip()
 
-    def stopwatch(self):
-        # keys = kb.getKeys()  # , waitDuration=True
-        self.kb.clock.reset()  # TODO: make this happen on first flip
-        self.counter.color = "white"
-        mainClock = core.MonotonicClock()
-        # if button is pressed, show white
-        presses = []  # TODO: make it clear cache?
-        while len(presses) < 1:
-            presses = self.kb.getKeys(waitRelease=True)
-            self.counter.setText(str(round(1000*mainClock.getTime())))
-            self.counter.draw()
-            self.window.flip()
+    def flash_fixation_box(self, color):
+        self.fixation_box.fillColor = color
+        self.fixation_box.draw()
+        self.window.flip()
 
-        speed = round(1000*presses[0].rt)
+    def start_countdown(self):
+        self.counter.color = "white"
+        self.counter.setText("0")
+        self.counter.draw()
+        self.window.flip()  # TODO: Here, run script for trigger and saving start time
+
+    def show_countdown(self, time):
+        # mainClock.getTime()
+        self.counter.setText(str(round(1000*time)))
+        self.counter.draw()
+        self.window.flip()
+
+    def show_result(self, time):
+        # presses[0].rt
+        speed = round(1000*time)
         self.counter.setText(str(speed))
         if speed < self.CONF["task"]["minTime"]:
             self.counter.color = self.CONF["task"]["earlyColor"]
@@ -94,4 +101,16 @@ class Screen:
             self.counter.color = self.CONF["task"]["lateColor"]
         self.counter.draw()
         self.window.flip()
+
+    def stopwatch(self):
+        # keys = kb.getKeys()  # , waitDuration=True
+
+        # if button is pressed, show white
+        presses = []  # TODO: make it clear cache?
+        while len(presses) < 1:
+            presses = self.kb.getKeys(waitRelease=True)
+            # 1
+
+        # 2
+
         core.wait(2)

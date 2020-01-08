@@ -16,8 +16,8 @@ CONF = {
         "units": "norm"
     },
     "timing": {
-        "rest":  2,  # 60,
-        "overview": 2,
+        "rest":  1,  # 60,
+        "overview": 1,
         "cue": 1
     },
 
@@ -34,9 +34,9 @@ CONF = {
         "height": .1,
         "width": .2,
         "fillColor": "red",
-        "lineColor": "red",
+        "errorFlash": 0.1,
         "minDelay": 0.5,
         "maxDelay": 5,  # 10,
-
+        "scoreTime": 0.5
     }
 }

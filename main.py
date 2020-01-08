@@ -2,6 +2,7 @@ import json
 import logging
 import os
 import random
+import time
 from psychopy import core
 from screen import Screen
 import inputs
@@ -42,9 +43,9 @@ core.wait(CONF["timing"]["cue"])
 
 # Main experiment loop
 sequence_number = 0
-timer = core.CountdownTimer(CONF["task"]["duration"])
+mainTimer = core.CountdownTimer(CONF["task"]["duration"])
 
-while timer.getTime() > 0:
+while mainTimer.getTime() > 0:
     # while True:
     # Planning phase
     sequence_number += 1
@@ -63,20 +64,43 @@ while timer.getTime() > 0:
     # actual experiment:
 
     # wait a random period of time
-    datalog["startDelay"] = mainClock.getTime()  # maybe remove?
+
     delay = random.uniform(
         CONF["fixation"]["minDelay"], CONF["fixation"]["maxDelay"])
     datalog["delay"] = delay
     logging.info('Starting delay of %s seconds', delay)
 
-    core.wait(delay)
+    delayTimer = core.CountdownTimer(delay)
+    extraKeys = []
+    while delayTimer.getTime() > 0:
+        # save extra key presses
+        extraKey = kb.getKeys()
+        if len(extraKey) > 0:
+            # TODO: if i can get the actual keypres time, use RT here instead
+            extraKeys.append(mainClock.getTime())
+            screen.flash_fixation_box(CONF["task"]["earlyColor"])
+            time.sleep(0.1)
+            screen.flash_fixation_box(CONF["fixation"]["fillColor"])
+
+        time.sleep(0.001)
+    datalog["extrakeypresses"] = extraKeys
 
     # run counter
-    screen.stopwatch()
+    Timer = core.Clock()
+    keys = []
+    datalog["startTime"] = mainClock.getTime()  # maybe remove?
+    kb.clock.reset()  # TODO: make this happen on first flip
+    screen.start_countdown()
+    while len(keys) < 1:
+        # TODO: maybe new version gets the time of the key press and not time of called function?
+        keys = kb.getKeys()
+        screen.show_countdown(Timer.getTime())
+    reactionTime = keys[0].rt
+    screen.show_result(reactionTime)
+    datalog["rt"] = reactionTime
+    core.wait(CONF["fixation"]["scoreTime"])
 
-    # TODO: save extra key presses
-
-    # datalog.flush()
+    datalog.flush()
 
 
 # Presents simple fixation until the end

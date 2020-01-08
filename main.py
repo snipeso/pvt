@@ -7,6 +7,8 @@ from screen import Screen
 import inputs
 from datalog import Datalog
 from configuration import CONF
+from psychopy.hardware import keyboard
+
 
 logging.basicConfig(
     level=logging.INFO,
@@ -21,14 +23,13 @@ datalog = Datalog(OUTPUT_FOLDER='output', CONF=CONF)
 inputs = inputs.Input(CONF)
 logging.info('Initialization completed')
 
-screen.stopwatch()
-
 # Overview of session
 screen.show_overview()
 core.wait(CONF["timing"]["overview"])
 # Blank screen
 screen.show_blank()
 # starts clock for timestamping events
+kb = keyboard.Keyboard()
 mainClock = core.MonotonicClock()
 logging.info('Starting experiment clock')
 
@@ -62,7 +63,7 @@ while timer.getTime() > 0:
     # actual experiment:
 
     # wait a random period of time
-    datalog["startDelay"] = mainClock.getTime()
+    datalog["startDelay"] = mainClock.getTime()  # maybe remove?
     delay = random.uniform(
         CONF["fixation"]["minDelay"], CONF["fixation"]["maxDelay"])
     datalog["delay"] = delay
@@ -71,10 +72,11 @@ while timer.getTime() > 0:
     core.wait(delay)
 
     # run counter
-    # stopwatch(CONF)
-    screen.counter()
+    screen.stopwatch()
 
-    datalog.flush()
+    # TODO: save extra key presses
+
+    # datalog.flush()
 
 
 # Presents simple fixation until the end

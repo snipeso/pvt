@@ -23,7 +23,7 @@ CONF = {
 
     "task": {
         "name": "PVT",
-        "duration":  10,  # 10*60,  # in seconds
+        "duration":  30,  # 10*60,  # in seconds
         "maxTime": 500,
         "minTime": 100,
         "victoryColor": "green",
@@ -35,8 +35,8 @@ CONF = {
         "width": .2,
         "fillColor": "red",
         "lineColor": "red",
-        "minDelay": 2,
-        "maxDelay": 10,
+        "minDelay": 0.5,
+        "maxDelay": 5,  # 10,
 
     }
 }

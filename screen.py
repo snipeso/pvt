@@ -73,12 +73,11 @@ class Screen:
 
     def stopwatch(self):
         # keys = kb.getKeys()  # , waitDuration=True
-        start = 0
-        interval = 1  # round(1000/60)
-        self.kb.clock.reset()
+        self.kb.clock.reset()  # TODO: make this happen on first flip
+        self.counter.color = "white"
         mainClock = core.MonotonicClock()
         # if button is pressed, show white
-        presses = self.kb.getKeys(waitRelease=True)
+        presses = []  # TODO: make it clear cache?
         while len(presses) < 1:
             presses = self.kb.getKeys(waitRelease=True)
             self.counter.setText(str(round(1000*mainClock.getTime())))

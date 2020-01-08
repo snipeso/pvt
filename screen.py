@@ -54,10 +54,16 @@ class Screen:
         #                               units="norm") TODO: get Simone to help
         self.counter = visual.TextStim(self.window)
         self.kb = keyboard.Keyboard()
+        self.instructions = visual.TextStim(
+            self.window, text=CONF["instructions"]["text"], height=.05)
 
     def show_overview(self):
         self.task.draw()
         self.session.draw()
+        self.window.flip()
+
+    def show_instructions(self):
+        self.instructions.draw()
         self.window.flip()
 
     def show_blank(self):

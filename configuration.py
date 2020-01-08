@@ -3,10 +3,10 @@ import string
 CONF = {
     "participant": "001",
     "session": "1",
-    "keys": {
-        "before": ["1", "left", "minus"],
-        "after": ["2", "right", "plus"],
-        "start": "5",
+    "instructions": {
+        "show": True,
+        "duration": 5,
+        "text": "Please fixate on the red square. When it is replaced by a counter, press the F key as fast as possible. Answers slower than .5 seconds are considered lapses."
     },
     "screen": {
         "size": [1000, 1000],

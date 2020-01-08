@@ -27,6 +27,12 @@ logging.info('Initialization completed')
 # Overview of session
 screen.show_overview()
 core.wait(CONF["timing"]["overview"])
+
+# instructions
+if CONF["instructions"]["show"]:
+    screen.show_instructions()
+    core.wait(CONF["instructions"]["duration"])
+
 # Blank screen
 screen.show_blank()
 # starts clock for timestamping events

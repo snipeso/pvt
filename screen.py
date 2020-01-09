@@ -11,27 +11,7 @@ class Screen:
             monitor=CONF["screen"]["monitor"],
             fullscr=CONF["screen"]["full"], units="norm")
 
-        # Setup fixation box
-        self.fixation_box = visual.Rect(
-            self.window, height=CONF["fixation"]["height"],
-            width=CONF["fixation"]["width"],
-            fillColor=CONF["fixation"]["fillColor"],
-            lineColor=CONF["screen"]["color"],
-            units=CONF["screen"]["units"])
-
-        # Setup word and tasks
-        self.cue = visual.TextStim(self.window)
-        self.task_before = visual.TextStim(self.window,
-                                           text="before",
-                                           pos=[-.3, 0],
-                                           height=.3)
-
-        self.task_after = visual.TextStim(self.window,
-                                          text="after",
-                                          pos=[.3, 0],
-                                          height=.2)
-
-        # setup overview info
+        # set up instructions and overview
         self.task = visual.TextStim(self.window,
                                     text=CONF["task"]["name"],
                                     # alignHoriz="center",
@@ -47,18 +27,30 @@ class Screen:
                                        pos=[0, -.3],
                                        height=.1,
                                        )
+
+        self.instructions = visual.TextStim(
+            self.window, text=CONF["instructions"]["text"], height=.05)
+
+        self.startPrompt = visual.TextStim(
+            self.window, text=CONF["instructions"]["startPrompt"], height=0.05, pos=[0, -.3])
+
+        self.cue = visual.TextStim(self.window)
+
+        # Setup fixation box
+        self.fixation_box = visual.Rect(
+            self.window, height=CONF["fixation"]["height"],
+            width=CONF["fixation"]["width"],
+            fillColor=CONF["fixation"]["fillColor"],
+            lineColor=CONF["screen"]["color"],
+            units=CONF["screen"]["units"])
+
+        # setup stopwatch
         # self.counter = visual.TextBox(self.window,
         #                               font_size=2, font_color="red",
         #                               size=(.5, .5),
         #                               pos=(0.0, .5),
         #                               units="norm") TODO: get Simone to help
         self.counter = visual.TextStim(self.window)
-        self.kb = keyboard.Keyboard()
-        self.instructions = visual.TextStim(
-            self.window, text=CONF["instructions"]["text"], height=.05)
-
-        self.startPrompt = visual.TextStim(
-            self.window, text=CONF["instructions"]["startPrompt"], height=0.05, pos=[0, -.3])
 
     def show_overview(self):
         self.task.draw()
@@ -111,16 +103,3 @@ class Screen:
             self.counter.color = self.CONF["task"]["lateColor"]
         self.counter.draw()
         self.window.flip()
-
-    def stopwatch(self):
-        # keys = kb.getKeys()  # , waitDuration=True
-
-        # if button is pressed, show white
-        presses = []  # TODO: make it clear cache?
-        while len(presses) < 1:
-            presses = self.kb.getKeys(waitRelease=True)
-            # 1
-
-        # 2
-
-        core.wait(2)

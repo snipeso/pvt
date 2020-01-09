@@ -21,7 +21,6 @@ CONF = {
         "overview": 1,
         "cue": 1
     },
-
     "task": {
         "name": "PVT",
         "duration":  30,  # 10*60,  # in seconds

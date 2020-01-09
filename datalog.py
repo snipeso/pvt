@@ -20,16 +20,16 @@ class Datalog:
             datetime.datetime.now().strftime("%Y-%m-%d-%H-%M"))
         self.path = os.path.join(OUTPUT_FOLDER, OUTPUT_FILE_NAME)
 
-        # TODO: auto create output folder
-
         self.CONF = CONF
 
         self.data = {}
 
     def __setitem__(self, key, value):
+        # this magically lets you call the class directly as datalog["newfield"] = newItem
         self.data[key] = value
 
     def flush(self):
+        # saves to a file
         with open("{}.log".format(self.path), "a+") as f:
             json.dump(self.data, f)
             f.write("\n")

@@ -2,11 +2,13 @@ import logging
 import os
 import random
 import time
+import sys
 
+
+from screen import Screen
 from psychopy import core, event
 from psychopy.hardware import keyboard
 
-from screen import Screen
 from datalog import Datalog
 from configuration import CONF
 
@@ -20,6 +22,7 @@ logging.basicConfig(
 
 # TODO: load seperate task configuration, and merge the two into the following CONF
 screen = Screen(CONF)
+
 datalog = Datalog(OUTPUT_FOLDER=os.path.join(
     'output', CONF["task"]["name"]), CONF=CONF)
 kb = keyboard.Keyboard()
@@ -37,7 +40,7 @@ if CONF["instructions"]["show"]:
     screen.show_instructions()
     key = event.waitKeys()
     if key[0].name == 'q':
-        exit()
+        sys.exit(1)
 
 # Blank screen for initial rest
 screen.show_blank()
@@ -54,7 +57,7 @@ core.wait(CONF["timing"]["cue"])
 sequence_number = 0
 mainTimer = core.CountdownTimer(CONF["task"]["duration"])
 
-exit()  # TEMP
+sys.exit(4)  # TEMP
 
 while mainTimer.getTime() > 0:
 
@@ -79,7 +82,7 @@ while mainTimer.getTime() > 0:
         extraKey = kb.getKeys()
         if len(extraKey) > 0:
             if extraKey[0].name == 'q':  # TODO: maybe have this in just one location?
-                exit()
+                sys.exit(2)
 
             # TODO: if i can get the actual keypres time, use RT here instead
             extraKeys.append(mainClock.getTime())
@@ -111,7 +114,7 @@ while mainTimer.getTime() > 0:
     core.wait(CONF["fixation"]["scoreTime"])
 
     if keys[0].name == 'q':
-        exit()
+        sys.exit(3)
 
     # save to file
     datalog["rt"] = reactionTime

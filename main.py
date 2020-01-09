@@ -54,6 +54,8 @@ core.wait(CONF["timing"]["cue"])
 sequence_number = 0
 mainTimer = core.CountdownTimer(CONF["task"]["duration"])
 
+exit()  # TEMP
+
 while mainTimer.getTime() > 0:
 
     sequence_number += 1
@@ -100,7 +102,7 @@ while mainTimer.getTime() > 0:
     screen.start_countdown()
     while len(keys) < 1:
         # TODO: maybe new version gets the time of the key press and not time of called function?
-        keys = kb.getKeys()
+        keys = kb.getKeys(waitRelease=False)
         screen.show_countdown(Timer.getTime())
 
     # show result
@@ -116,6 +118,9 @@ while mainTimer.getTime() > 0:
     datalog["response_key"] = keys[0].name
     datalog.flush()
 
+# Start main experiment
+screen.show_cue("DONE!")
+core.wait(CONF["timing"]["cue"])
 
 # Blank screen for final rest
 screen.show_blank()

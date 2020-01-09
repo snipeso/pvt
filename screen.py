@@ -12,26 +12,27 @@ class Screen:
             display_resolution=CONF["screen"]["resolution"],
             # monitor=CONF["screen"]["monitor"],
             fullscr=CONF["screen"]["full"], units="norm",
-            allowGUI=False
+            allowGUI=True
         )
 
         # set up instructions and overview
         self.task = visual.TextStim(self.window,
-                                    pos=[0, 0],
+                                    # pos=[0, 0],
                                     text=CONF["task"]["name"],
                                     alignHoriz='center',
                                     alignVert='center',
-                                    # anchorHoriz="center",  # TODO: get Simone's help
-                                    # alignText="center",
                                     height=.3,
+                                    pos=(.8, 0),  # TEMP
+                                    units="norm"
                                     )
         self.session = visual.TextStim(self.window,
                                        text="P" + CONF["participant"] +
                                        " Session " + CONF["session"],
-                                       #    anchorHoriz="center",  # TODO: get Simone's help
-                                       #    alignText="center",
-                                       pos=[0, -.3],
+                                       pos=[.75, -.3],  # TEMP
                                        height=.1,
+                                       alignHoriz='center',
+                                       alignVert='center',
+                                       units="norm"
                                        )
 
         self.instructions = visual.TextStim(
@@ -58,20 +59,19 @@ class Screen:
         self.counter = visual.TextStim(self.window)
         # self.counter = visual.TextBox(window=self.window,
         #                               #   font_size=21,
-        #                               text="hello: A B C D E F G H I J",
-        #                               font_name=fonts[0][0],
-        #                               border_color=[-1, -1, 1],
-        #                               grid_color=[-1, 1, -1, 1],
-        #                               textgrid_shape=(20, 5),
-        #                               #   align_horz='left',
-        #                               #   align_vert='bottom',
-        #                               grid_stroke_width=1,
-        #                               #   textgrid_shape=[20, 4],
+        #                               #   font_name=fonts[0][0],
+        #                               #   border_color=[-1, -1, 1],
+        #                               #   grid_color=[-1, -1, 1],
+        #                               #   textgrid_shape=(20, 5),
+        #                               #   #   align_horz='left',
+        #                               #   #   align_vert='bottom',
+        #                               #   grid_stroke_width=1,
+        #                               #   #   textgrid_shape=[20, 4],
         #                               font_color=[1, 1, 1],
         #                               size=(1, 1),
-        #                               pos=(0.0, 0),
-        #                               grid_horz_justification='center',
-        #                               units='norm',
+        #                               #   pos=(0.0, 0),
+        #                               #   grid_horz_justification='center',
+        #                               #   units='norm',
         #                               )
 
     def show_overview(self):

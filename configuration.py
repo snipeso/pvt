@@ -1,7 +1,7 @@
 import string
 
 CONF = {
-    "participant": "001",
+    "participant": "01",
     "session": "1",
     "instructions": {
         "show": False,
@@ -19,7 +19,7 @@ CONF = {
     },
     "timing": {
         "rest":  1,  # 60,
-        "overview": 5,
+        "overview": 1,
         "cue": 1
     },
     "task": {

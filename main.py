@@ -30,28 +30,28 @@ logging.info('Initialization completed')
 
 #########################################################################
 
-# Display overview of session
-screen.show_overview()
-core.wait(CONF["timing"]["overview"])
+# # Display overview of session
+# screen.show_overview()
+# core.wait(CONF["timing"]["overview"])
 
-# Optionally, display instructions
-if CONF["instructions"]["show"]:
-    screen.show_instructions()
-    key = event.waitKeys()
-    if key[0].name == 'q':
-        sys.exit(1)
+# # Optionally, display instructions
+# if CONF["instructions"]["show"]:
+#     screen.show_instructions()
+#     key = event.waitKeys()
+#     if key[0].name == 'q':
+#         sys.exit(1)
 
-# Blank screen for initial rest
-screen.show_blank()
-logging.info('Starting blank period')
+# # Blank screen for initial rest
+# screen.show_blank()
+# logging.info('Starting blank period')
 
-# TODO: send start trigger
-core.wait(CONF["timing"]["rest"])
-# TODO: send end wait trigger
+# # TODO: send start trigger
+# core.wait(CONF["timing"]["rest"])
+# # TODO: send end wait trigger
 
-# Start main experiment
-screen.show_cue("START")
-core.wait(CONF["timing"]["cue"])
+# # Start main experiment
+# screen.show_cue("START")
+# core.wait(CONF["timing"]["cue"])
 
 sequence_number = 0
 mainTimer = core.CountdownTimer(CONF["task"]["duration"])
@@ -104,7 +104,8 @@ while mainTimer.getTime() > 0:
     while not keys:
         # TODO: maybe new version gets the time of the key press and not time of called function?
         keys = kb.getKeys(waitRelease=False)
-        screen.show_countdown(Timer.getTime())
+        screen.show_counter(Timer.getTime())
+        screen.window.flip()
 
     # show result
     reactionTime = keys[0].rt

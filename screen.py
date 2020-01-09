@@ -1,5 +1,6 @@
 from psychopy import visual, core, event
 from psychopy.hardware import keyboard
+from psychopy.visual import textbox
 
 
 class Screen:
@@ -7,14 +8,19 @@ class Screen:
         self.CONF = CONF
         self.window = visual.Window(
             size=CONF["screen"]["size"],
-            color=CONF["screen"]["color"],
-            monitor=CONF["screen"]["monitor"],
-            fullscr=CONF["screen"]["full"], units="norm")
+            # color=CONF["screen"]["color"],
+            display_resolution=CONF["screen"]["resolution"],
+            # monitor=CONF["screen"]["monitor"],
+            fullscr=CONF["screen"]["full"], units="norm",
+            allowGUI=False
+        )
 
         # set up instructions and overview
         self.task = visual.TextStim(self.window,
+                                    pos=[0, 0],
                                     text=CONF["task"]["name"],
-                                    # alignHoriz="center",
+                                    alignHoriz='center',
+                                    alignVert='center',
                                     # anchorHoriz="center",  # TODO: get Simone's help
                                     # alignText="center",
                                     height=.3,
@@ -22,8 +28,8 @@ class Screen:
         self.session = visual.TextStim(self.window,
                                        text="P" + CONF["participant"] +
                                        " Session " + CONF["session"],
-                                       # anchorHoriz="center", TODO: get Simone's help
-                                       # alignText="center",
+                                       #    anchorHoriz="center",  # TODO: get Simone's help
+                                       #    alignText="center",
                                        pos=[0, -.3],
                                        height=.1,
                                        )
@@ -45,14 +51,31 @@ class Screen:
             units=CONF["screen"]["units"])
 
         # setup stopwatch
-        # self.counter = visual.TextBox(self.window,
-        #                               font_size=2, font_color="red",
-        #                               size=(.5, .5),
-        #                               pos=(0.0, .5),
-        #                               units="norm") TODO: get Simone to help
+        # self.counter = visual.TextBox(self.window)
+        fm = textbox.getFontManager()
+        fonts = fm.getFontFamilyStyles()
+
         self.counter = visual.TextStim(self.window)
+        # self.counter = visual.TextBox(window=self.window,
+        #                               #   font_size=21,
+        #                               text="hello: A B C D E F G H I J",
+        #                               font_name=fonts[0][0],
+        #                               border_color=[-1, -1, 1],
+        #                               grid_color=[-1, 1, -1, 1],
+        #                               textgrid_shape=(20, 5),
+        #                               #   align_horz='left',
+        #                               #   align_vert='bottom',
+        #                               grid_stroke_width=1,
+        #                               #   textgrid_shape=[20, 4],
+        #                               font_color=[1, 1, 1],
+        #                               size=(1, 1),
+        #                               pos=(0.0, 0),
+        #                               grid_horz_justification='center',
+        #                               units='norm',
+        #                               )
 
     def show_overview(self):
+        # self.counter.draw()
         self.task.draw()
         self.session.draw()
         self.window.flip()
@@ -86,13 +109,12 @@ class Screen:
         self.window.flip()  # TODO: Here, run script for trigger and saving start time
 
     def show_countdown(self, time):
-        # mainClock.getTime()
         self.counter.setText(str(round(1000*time)))
         self.counter.draw()
         self.window.flip()
 
     def show_result(self, time):
-        # presses[0].rt
+        # gives different color stimulus depending on result
         speed = round(1000*time)
         self.counter.setText(str(speed))
         if speed < self.CONF["task"]["minTime"]:

@@ -14,11 +14,12 @@ CONF = {
         "color": "#6B6B6B",
         "monitor": "testMonitor",
         "full": False,
-        "units": "norm"
+        "units": "norm",
+        "resolution": [3840, 2160]
     },
     "timing": {
         "rest":  1,  # 60,
-        "overview": 1,
+        "overview": 5,
         "cue": 1
     },
     "task": {

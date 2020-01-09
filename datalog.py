@@ -12,9 +12,11 @@ class Datalog:
         if not os.path.exists(OUTPUT_FOLDER):
             os.makedirs(OUTPUT_FOLDER)
 
-        # Determines name for output fole
-        OUTPUT_FILE_NAME = "{}_{}".format(
+        # Determines name for output file
+        OUTPUT_FILE_NAME = "{}_{}_{}_{}".format(
             CONF["participant"],
+            CONF["session"],
+            CONF["task"]["name"],
             datetime.datetime.now().strftime("%Y-%m-%d-%H-%M"))
         self.path = os.path.join(OUTPUT_FOLDER, OUTPUT_FILE_NAME)
 

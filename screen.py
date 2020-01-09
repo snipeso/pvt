@@ -22,7 +22,7 @@ class Screen:
                                     alignHoriz='center',
                                     alignVert='center',
                                     height=.3,
-                                    pos=(.8, 0),  # TEMP
+                                    pos=(0, 0),  # TEMP
                                     units="norm"
                                     )
         self.session = visual.TextStim(self.window,

@@ -30,28 +30,28 @@ logging.info('Initialization completed')
 
 #########################################################################
 
-# # Display overview of session
-# screen.show_overview()
-# core.wait(CONF["timing"]["overview"])
+# Display overview of session
+screen.show_overview()
+core.wait(CONF["timing"]["overview"])
 
-# # Optionally, display instructions
-# if CONF["instructions"]["show"]:
-#     screen.show_instructions()
-#     key = event.waitKeys()
-#     if key[0].name == 'q':
-#         sys.exit(1)
+# Optionally, display instructions
+if CONF["instructions"]["show"]:
+    screen.show_instructions()
+    key = event.waitKeys()
+    if key[0].name == 'q':
+        sys.exit(1)
 
-# # Blank screen for initial rest
-# screen.show_blank()
-# logging.info('Starting blank period')
+# Blank screen for initial rest
+screen.show_blank()
+logging.info('Starting blank period')
 
-# # TODO: send start trigger
-# core.wait(CONF["timing"]["rest"])
-# # TODO: send end wait trigger
+# TODO: send start trigger
+core.wait(CONF["timing"]["rest"])
+# TODO: send end wait trigger
 
-# # Start main experiment
-# screen.show_cue("START")
-# core.wait(CONF["timing"]["cue"])
+# Start main experiment
+screen.show_cue("START")
+core.wait(CONF["timing"]["cue"])
 
 
 class Chronometer:

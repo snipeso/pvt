@@ -120,9 +120,14 @@ while mainTimer.getTime() > 0:
     Timer = core.Clock()
     keys = []
     datalog["startTime"] = mainClock.getTime()
-    kb.clock.reset()  # TODO: make this happen on first flip
+    # kb.clock.reset()  # TODO: make this happen on first flip
+
+    def onFlip():
+        kb.clock.reset()
+        # TODO: send trigger
 
     # run stopwatch
+    screen.window.callOnFlip(onFlip)
     screen.start_countdown()
     while not keys:
         # TODO: maybe new version gets the time of the key press and not time of called function?

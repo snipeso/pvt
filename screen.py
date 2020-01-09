@@ -57,6 +57,9 @@ class Screen:
         self.instructions = visual.TextStim(
             self.window, text=CONF["instructions"]["text"], height=.05)
 
+        self.startPrompt = visual.TextStim(
+            self.window, text=CONF["instructions"]["startPrompt"], height=0.05, pos=[0, -.3])
+
     def show_overview(self):
         self.task.draw()
         self.session.draw()
@@ -64,6 +67,7 @@ class Screen:
 
     def show_instructions(self):
         self.instructions.draw()
+        self.startPrompt.draw()
         self.window.flip()
 
     def show_blank(self):

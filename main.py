@@ -3,25 +3,24 @@ import logging
 import os
 import random
 import time
-from psychopy import core
+from psychopy import core, event
 from screen import Screen
 import inputs
 from datalog import Datalog
 from configuration import CONF
 from psychopy.hardware import keyboard
 
-
+# Initialize screen, logger and inputs
 logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s-%(levelname)s-%(message)s',
 )
 
-# Initialize screen, logger and inputs
-
 # TODO: load seperate task configuration, and merge the two into the following CONF
 screen = Screen(CONF)
 datalog = Datalog(OUTPUT_FOLDER='output', CONF=CONF)
 inputs = inputs.Input(CONF)
+kb = keyboard.Keyboard()
 logging.info('Initialization completed')
 
 # Overview of session
@@ -31,12 +30,15 @@ core.wait(CONF["timing"]["overview"])
 # instructions
 if CONF["instructions"]["show"]:
     screen.show_instructions()
-    core.wait(CONF["instructions"]["duration"])
+    key = event.waitKeys()
+    if key[0].name == 'q':
+        exit()
+
 
 # Blank screen
 screen.show_blank()
 # starts clock for timestamping events
-kb = keyboard.Keyboard()
+
 mainClock = core.MonotonicClock()
 logging.info('Starting experiment clock')
 
@@ -62,9 +64,6 @@ while mainTimer.getTime() > 0:
     screen.show_fixation_box()
     datalog["sequence_number"] = sequence_number
 
-    direction = inputs.get_keys()
-    datalog["response_key"] = 3
-
     # logger.append_data()
 
     # actual experiment:
@@ -82,6 +81,9 @@ while mainTimer.getTime() > 0:
         # save extra key presses
         extraKey = kb.getKeys()
         if len(extraKey) > 0:
+            if extraKey[0].name == 'q':  # TODO: maybe have this in just one location?
+                exit()
+
             # TODO: if i can get the actual keypres time, use RT here instead
             extraKeys.append(mainClock.getTime())
             screen.flash_fixation_box(CONF["task"]["earlyColor"])
@@ -101,9 +103,13 @@ while mainTimer.getTime() > 0:
         # TODO: maybe new version gets the time of the key press and not time of called function?
         keys = kb.getKeys()
         screen.show_countdown(Timer.getTime())
+    if keys[0].name == 'q':
+        exit()
+
     reactionTime = keys[0].rt
     screen.show_result(reactionTime)
     datalog["rt"] = reactionTime
+    datalog["response_key"] = keys[0].name
     core.wait(CONF["fixation"]["scoreTime"])
 
     datalog.flush()
@@ -114,3 +120,5 @@ logging.info('Showing fixation cross')
 screen.show_fixation_box()
 
 logging.info('Quitting')
+
+# TODO: create something to quit out of program with keys

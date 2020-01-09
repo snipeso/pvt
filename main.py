@@ -4,7 +4,6 @@ import random
 import time
 import sys
 
-
 from screen import Screen
 from psychopy import core, event
 from psychopy.hardware import keyboard
@@ -57,7 +56,6 @@ core.wait(CONF["timing"]["cue"])
 sequence_number = 0
 mainTimer = core.CountdownTimer(CONF["task"]["duration"])
 
-sys.exit(4)  # TEMP
 
 while mainTimer.getTime() > 0:
 
@@ -80,7 +78,7 @@ while mainTimer.getTime() > 0:
     extraKeys = []
     while delayTimer.getTime() > 0:
         extraKey = kb.getKeys()
-        if len(extraKey) > 0:
+        if extraKey:
             if extraKey[0].name == 'q':  # TODO: maybe have this in just one location?
                 sys.exit(2)
 
@@ -103,7 +101,7 @@ while mainTimer.getTime() > 0:
 
     # run stopwatch
     screen.start_countdown()
-    while len(keys) < 1:
+    while not keys:
         # TODO: maybe new version gets the time of the key press and not time of called function?
         keys = kb.getKeys(waitRelease=False)
         screen.show_countdown(Timer.getTime())

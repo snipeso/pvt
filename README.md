@@ -2,13 +2,10 @@
 
 ## Todo
 
-- represent chosen word at the end
-- make timing based on triggers
-- adjust timings in configurations properly
+- fix visuals
+- include audio
 
-With Simone:
+## Eventual TODOs
 
-- center text stims properly
-- get key presses to work
-- figure out what psychopy does with psychtoolbox, maybe faster?
-- make function keep track of ALL key presses, and error if pressed out of turn
+- Provide results
+- check that the task is as described in paper

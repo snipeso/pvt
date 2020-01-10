@@ -5,7 +5,7 @@ import time
 import sys
 
 from screen import Screen
-from psychopy import core, event
+from psychopy import core, event, sound
 from psychopy.hardware import keyboard
 
 from datalog import Datalog
@@ -24,6 +24,9 @@ datalog = Datalog(OUTPUT_FOLDER=os.path.join(
     'output', CONF["task"]["name"]), CONF=CONF)  # This is for saving data
 kb = keyboard.Keyboard()
 mainClock = core.MonotonicClock()  # starts clock for timestamping events
+Alarm = sound.Sound('600', secs=0.01, sampleRate=44100,
+                    stereo=True)  # TODO: make it alarm-like
+
 logging.info('Initialization completed')
 
 #########################################################################

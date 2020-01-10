@@ -4,6 +4,8 @@ import collections
 import os
 import json
 
+# Saves data to a file in a session specific folder
+
 
 class Datalog:
     def __init__(self, OUTPUT_FOLDER, CONF):

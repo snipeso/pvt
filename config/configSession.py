@@ -2,10 +2,10 @@ CONF = {
     "participant": "01",
     "session": "1",
     "screen": {
-        "size": [1000, 1000],
+        "full": True,
         "color": "#6B6B6B",
         "monitor": "testMonitor",
-        "full": True,
+        "size": [1000, 1000],  # screen size when not fullscreen
         "units": "norm",
         "resolution": [3840, 2160]
     },

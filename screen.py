@@ -52,31 +52,23 @@ class Screen:
             units=CONF["screen"]["units"])
 
         # setup stopwatch
-        # self.counter = visual.TextBox(self.window)
         fm = textbox.getFontManager()
         fonts = fm.getFontFamilyStyles()
 
         # self.counter = visual.TextStim(self.window)
         self.counter = visual.TextBox(window=self.window,
-                                      #   font_size=21,
-                                      #   font_name=fonts[0][0],
                                       # border_color=[-1, -1, 1],
                                       grid_color=[-1, -1, 1],
                                       textgrid_shape=(10, 1),
-                                      #   #   align_horz='left',
-                                      #   #   align_vert='bottom',
-                                      #   grid_stroke_width=1,
-                                      #textgrid_shape=[20, 4],
+                                      # grid_stroke_width=1,
+                                      # textgrid_shape=[20, 4],
                                       font_color=[1, 1, 1],
                                       size=(1, 1),
-                                      #   pos=(0.0, 0),
-                                      #   grid_horz_justification='center',
-                                      #   units='norm',
                                       font_size=41,
                                       pos=(0, 0.25),
                                       grid_horz_justification='center',
                                       grid_vert_justification='center',
-                                      #   units='norm',
+                                      # units='norm',
                                       )
 
     def show_overview(self):
@@ -110,7 +102,7 @@ class Screen:
     def start_countdown(self):
         self.show_counter(0)
         self.set_counter_color("white")
-        self.window.flip()  # TODO: Here, run script for trigger and saving start time
+        self.window.flip()
 
     def show_counter(self, time, colored=False):
         speed = round(1000*time)

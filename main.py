@@ -9,7 +9,7 @@ from psychopy import core, event
 from psychopy.hardware import keyboard
 
 from datalog import Datalog
-from configuration import CONF
+from config.configPVT import CONF
 
 #########################################################################
 

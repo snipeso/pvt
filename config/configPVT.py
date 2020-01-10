@@ -3,7 +3,7 @@ from config.configSession import CONF
 CONF.update({
     "task": {
         "name": "PVT",
-        "duration":  30,  # 10*60,  # in seconds
+        "duration": 10*60,  # in seconds
         "minTime": 100,  # in miliseconds
         "maxTime": 500,
         "warningTime": 5,  # in seconds
@@ -16,8 +16,8 @@ CONF.update({
         "width": .2,
         "fillColor": "red",
         "errorFlash": 0.1,
-        "minDelay": 0.5,
-        "maxDelay": 5,  # 10,
+        "minDelay": 2,
+        "maxDelay": 10,  # 10,
         "scoreTime": 0.5
     },
     "instructions": {

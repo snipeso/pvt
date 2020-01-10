@@ -13,5 +13,6 @@ CONF = {
         "rest":  1,  # 60,
         "overview": 1,
         "cue": 1
-    }
+    },
+    "showInstructions": True,
 }

@@ -17,13 +17,11 @@ from config.configPVT import CONF
 logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s-%(levelname)s-%(message)s',
-)
+)  # This is a log for debugging the script, and prints messages to the terminal
 
-# TODO: load seperate task configuration, and merge the two into the following CONF
 screen = Screen(CONF)
-
 datalog = Datalog(OUTPUT_FOLDER=os.path.join(
-    'output', CONF["task"]["name"]), CONF=CONF)
+    'output', CONF["task"]["name"]), CONF=CONF)  # This is for saving data
 kb = keyboard.Keyboard()
 mainClock = core.MonotonicClock()  # starts clock for timestamping events
 logging.info('Initialization completed')
@@ -35,10 +33,11 @@ screen.show_overview()
 core.wait(CONF["timing"]["overview"])
 
 # Optionally, display instructions
-if CONF["instructions"]["show"]:
+if CONF["showInstructions"]:
     screen.show_instructions()
     key = event.waitKeys()
-    if key[0].name == 'q':
+    if key[0] == 'q':
+        logging.warning('Force quit after instructions')
         sys.exit(1)
 
 # Blank screen for initial rest
@@ -97,12 +96,13 @@ while mainTimer.getTime() > 0:
 
     delayTimer = core.CountdownTimer(delay)
 
-    # Record any extra key presses
+    # Record any extra key presses during wait
     extraKeys = []
     while delayTimer.getTime() > 0:
         extraKey = kb.getKeys()
         if extraKey:
-            if extraKey[0].name == 'q':  # TODO: maybe have this in just one location?
+            if extraKey[0].name == 'q':
+                logging.warning('Forced quit during wait')
                 sys.exit(2)
 
             # TODO: if i can get the actual keypres time, use RT here instead
@@ -141,6 +141,7 @@ while mainTimer.getTime() > 0:
     core.wait(CONF["fixation"]["scoreTime"])
 
     if keys[0].name == 'q':
+        logging.warning('Forced quit during task')
         sys.exit(3)
 
     # save to file

@@ -88,10 +88,10 @@ while mainTimer.getTime() > 0:
 
             # Flash the fixation box to indicate unexpected key press
             screen.flash_fixation_box(CONF["task"]["earlyColor"])
-            time.sleep(CONF["fixation"]["errorFlash"])
+            core.wait(CONF["fixation"]["errorFlash"])
             screen.flash_fixation_box(CONF["fixation"]["fillColor"])
 
-        time.sleep(0.001)
+        core.wait(0.001)
     datalog["extrakeypresses"] = extraKeys
 
     # initialize stopwatch

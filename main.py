@@ -83,7 +83,6 @@ while mainTimer.getTime() > 0:
                 logging.warning('Forced quit during wait')
                 sys.exit(2)
 
-            # TODO: if i can get the actual keypres time, use RT here instead
             extraKeys.append(mainClock.getTime())
 
             # Flash the fixation box to indicate unexpected key press
@@ -91,14 +90,14 @@ while mainTimer.getTime() > 0:
             core.wait(CONF["fixation"]["errorFlash"])
             screen.flash_fixation_box(CONF["fixation"]["fillColor"])
 
-        core.wait(0.001)
+        core.wait(0.0005)
     datalog["extrakeypresses"] = extraKeys
 
     # initialize stopwatch
     Timer = core.Clock()
     keys = []
+    Skipped = False
     datalog["startTime"] = mainClock.getTime()
-    # kb.clock.reset()  # TODO: make this happen on first flip
 
     def onFlip():
         kb.clock.reset()
@@ -108,26 +107,35 @@ while mainTimer.getTime() > 0:
     screen.window.callOnFlip(onFlip)
     screen.start_countdown()
     while not keys:
-        # TODO: maybe new version gets the time of the key press and not time of called function?
         keys = kb.getKeys(waitRelease=False)
         screen.show_counter(Timer.getTime())
         screen.window.flip()
+        if Timer.getTime() > CONF["task"]["warningTime"]:
+            Skipped = True
+            break
 
-    # show result
-    reactionTime = keys[0].rt
-    screen.show_result(reactionTime)
-    core.wait(CONF["fixation"]["scoreTime"])
+    if Skipped:
+        # Alarm.play()
+        logging.info("participant fell asleep")
+        datalog["skipped"] = True
 
-    if keys[0].name == 'q':
-        logging.warning('Forced quit during task')
-        sys.exit(3)
+    else:
+        # show result
+        reactionTime = keys[0].rt
+        screen.show_result(reactionTime)
+        core.wait(CONF["fixation"]["scoreTime"])
 
-    # save to file
-    datalog["rt"] = reactionTime
-    datalog["response_key"] = keys[0].name
+        if keys[0].name == 'q':
+            logging.warning('Forced quit during task')
+            sys.exit(3)
+
+        # save to file
+        datalog["rt"] = reactionTime
+        datalog["response_key"] = keys[0].name
+
     datalog.flush()
 
-# Start main experiment
+# End main experiment
 screen.show_cue("DONE!")
 core.wait(CONF["timing"]["cue"])
 

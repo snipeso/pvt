@@ -4,8 +4,9 @@ CONF.update({
     "task": {
         "name": "PVT",
         "duration":  30,  # 10*60,  # in seconds
+        "minTime": 100,  # in miliseconds
         "maxTime": 500,
-        "minTime": 100,
+        "warningTime": 5,  # in seconds
         "victoryColor": "green",
         "earlyColor": "yellow",
         "lateColor": "red",

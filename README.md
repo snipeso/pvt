@@ -6,6 +6,9 @@
 2. `source env/bin/activate` to enter env
 3. `pip install -r requirements.txt` (run over and over until no more errors)
 
+# create requirements:
+1. `pip freeze > requirements.txt`
+
 ## install psychopy after error:
 
 1. `sudo apt install python3-dev libx11-dev libasound2-dev portaudio19-dev libusb-1.0-0-dev libxi-dev build-essential libgtk-3-dev gtk3.0 python3-wxgtk3.0 `

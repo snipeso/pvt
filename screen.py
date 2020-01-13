@@ -17,18 +17,18 @@ class Screen:
 
         # set up instructions and overview
         self.task = visual.TextStim(self.window,
-                                    # pos=[0, 0],
+                                    pos=[0.7, 0.1],
                                     text=CONF["task"]["name"],
                                     alignHoriz='center',
                                     alignVert='center',
                                     height=.3,
-                                    pos=(0, 0),  # TEMP
+                                    #pos=(0, 0),  # TEMP
                                     units="norm"
                                     )
         self.session = visual.TextStim(self.window,
                                        text="P" + CONF["participant"] +
                                        " Session " + CONF["session"],
-                                       pos=[.75, -.3],  # TEMP
+                                       pos=[.7, -.2],  # TEMP
                                        height=.1,
                                        alignHoriz='center',
                                        alignVert='center',
@@ -36,16 +36,18 @@ class Screen:
                                        )
 
         self.instructions = visual.TextStim(
-            self.window, text=CONF["instructions"]["text"], height=.05)
+            self.window, text=CONF["instructions"]["text"], height=.05, pos = [0.5,0.1])
 
         self.startPrompt = visual.TextStim(
-            self.window, text=CONF["instructions"]["startPrompt"], height=0.05, pos=[0, -.3])
+            self.window, text=CONF["instructions"]["startPrompt"], height=0.05, pos=[0.5, -0.2])
 
-        self.cue = visual.TextStim(self.window)
+        self.cue = visual.TextStim(self.window, pos = [0.87,0])
 
         # Setup fixation box
         self.fixation_box = visual.Rect(
+           
             self.window, height=CONF["fixation"]["height"],
+            pos=[0,0],
             width=CONF["fixation"]["width"],
             fillColor=CONF["fixation"]["fillColor"],
             lineColor=CONF["screen"]["color"],
@@ -58,14 +60,14 @@ class Screen:
         # self.counter = visual.TextStim(self.window)
         self.counter = visual.TextBox(window=self.window,
                                       # border_color=[-1, -1, 1],
-                                      grid_color=[-1, -1, 1],
-                                      textgrid_shape=(10, 1),
+                                      ## grid_color=[-1, -1, 1],
+                                      ## textgrid_shape=(10, 1),
                                       # grid_stroke_width=1,
                                       # textgrid_shape=[20, 4],
                                       font_color=[1, 1, 1],
                                       size=(1, 1),
                                       font_size=41,
-                                      pos=(0, 0.25),
+                                      pos=(0.05, 0),
                                       grid_horz_justification='center',
                                       grid_vert_justification='center',
                                       # units='norm',

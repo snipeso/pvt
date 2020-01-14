@@ -5,6 +5,7 @@ import time
 import sys
 
 from screen import Screen
+from scorer import Scorer
 from psychopy import core, event, sound
 from psychopy.hardware import keyboard
 
@@ -15,7 +16,7 @@ from config.configPVT import CONF
 
 # Initialize screen, logger and inputs
 logging.basicConfig(
-    level=logging.INFO,
+    level=logging.WARNING,
     format='%(asctime)s-%(levelname)s-%(message)s',
 )  # This is a log for debugging the script, and prints messages to the terminal
 
@@ -26,14 +27,26 @@ kb = keyboard.Keyboard()
 mainClock = core.MonotonicClock()  # starts clock for timestamping events
 Alarm = sound.Sound('600', secs=0.01, sampleRate=44100,
                     stereo=True)  # TODO: make it alarm-like
+scorer = Scorer()
 
 logging.info('Initialization completed')
 
 #########################################################################
 
+
+def quitExperimentIf(toQuit):
+    "Quit experiment if condition is met"
+
+    if toQuit:
+
+        scorer.getScore()  # TODO: see if this is ok to do
+        logging.info('quit experiment')
+        sys.exit(2)  # TODO: make version where quit is sys 1 vs sys 2
+
 ##############
 # Introduction
 ##############
+
 
 # Display overview of session
 screen.show_overview()
@@ -43,9 +56,7 @@ core.wait(CONF["timing"]["overview"])
 if CONF["showInstructions"]:
     screen.show_instructions()
     key = event.waitKeys()
-    if key[0] == 'q':
-        logging.warning('Force quit after instructions')
-        sys.exit(1)
+    quitExperimentIf(key[0] == 'q')
 
 # Blank screen for initial rest
 screen.show_blank()
@@ -95,18 +106,19 @@ while mainTimer.getTime() > 0:
         # Record any extra key presses during wait
         extraKey = kb.getKeys()
         if extraKey:
-            if extraKey[0].name == 'q':
-                logging.warning('Forced quit during wait')
-                sys.exit(2)
+            quitExperimentIf(extraKey[0].name == 'q')
 
             extraKeys.append(mainClock.getTime())
 
             # Flash the fixation box to indicate unexpected key press
             screen.flash_fixation_box(CONF["task"]["earlyColor"])
             core.wait(CONF["fixation"]["errorFlash"])
-            screen.flash_fixation_box(CONF["fixation"]["fillColor"])
+            screen.flash_fixation_box(CONF["fixation"]["boxColor"])
 
         core.wait(0.0005)
+
+    datalog["extrakeypresses"] = extraKeys
+    scorer.scores["extraKeys"] += len(extraKeys)
 
     #######################
     # Stimulus presentation
@@ -114,7 +126,7 @@ while mainTimer.getTime() > 0:
     # initialize stopwatch
     Timer = core.Clock()
     keys = []
-    Skipped = False
+    missed = False
 
     def onFlip():  # TODO: does this go somewhere else?
         kb.clock.reset()
@@ -131,16 +143,17 @@ while mainTimer.getTime() > 0:
 
         # end if no answer comes in time
         if Timer.getTime() > CONF["task"]["warningTime"]:
-            Skipped = True
+            missed = True
             break
 
     #########
     # Outcome
 
-    if Skipped:
+    if missed:
         # Alarm.play()
         logging.info("participant fell asleep")
-        datalog["skipped"] = True
+        datalog["missed"] = True
+        scorer.scores["missed"] += 1
 
     else:
         # show result
@@ -148,16 +161,21 @@ while mainTimer.getTime() > 0:
         screen.show_result(reactionTime)
         core.wait(CONF["fixation"]["scoreTime"])
 
-        if keys[0].name == 'q':
-            logging.warning('Forced quit during task')
-            sys.exit(3)
+        # exit if asked
+        quitExperimentIf(keys[0].name == 'q')
 
         # save to memory
         datalog["rt"] = reactionTime
         datalog["response_key"] = keys[0].name
+        if reactionTime > CONF["task"]["maxTime"]:
+            datalog["late"] = True
+            scorer.scores["late"] += 1
+
+        scorer.scores["RTsum"] += reactionTime
+        scorer.scores["tot"] += 1
 
     # save data to file
-    datalog["extrakeypresses"] = extraKeys
+
     datalog.flush()
 
 ###########
@@ -175,3 +193,6 @@ core.wait(CONF["timing"]["rest"])
 # TODO: send end wait trigger
 
 logging.info('Finished')
+
+
+quitExperimentIf(True)

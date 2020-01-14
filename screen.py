@@ -1,4 +1,4 @@
-from psychopy import visual, core, event
+from psychopy import visual, core, event, monitors
 from psychopy.hardware import keyboard
 from psychopy.visual import textbox
 
@@ -6,12 +6,18 @@ from psychopy.visual import textbox
 class Screen:
     def __init__(self, CONF):
         self.CONF = CONF
+
+        # fetch the most recent calib for this monitor
+        mon = monitors.Monitor('tesfgft')
+        mon.setWidth(CONF["screen"]["size"][0])
+        mon.setSizePix(CONF["screen"]["resolution"])
+
         self.window = visual.Window(
-            size=CONF["screen"]["size"],
-            # color=CONF["screen"]["color"],
-            display_resolution=CONF["screen"]["resolution"],
-            # monitor=CONF["screen"]["monitor"],
-            fullscr=CONF["screen"]["full"], units="norm",
+            size=CONF["screen"]["resolution"],
+            # display_resolution=CONF["screen"]["resolution"],
+            monitor=mon,
+            fullscr=CONF["screen"]["full"],
+            # units="cm",
             allowGUI=True
         )
 
@@ -22,7 +28,7 @@ class Screen:
                                     alignHoriz='center',
                                     alignVert='center',
                                     height=.3,
-                                    #pos=(0, 0),  # TEMP
+                                    # pos=(0, 0),  # TEMP
                                     units="norm"
                                     )
         self.session = visual.TextStim(self.window,
@@ -36,21 +42,19 @@ class Screen:
                                        )
 
         self.instructions = visual.TextStim(
-            self.window, text=CONF["instructions"]["text"], height=.05, pos = [0.5,0.1])
+            self.window, text=CONF["instructions"]["text"], height=.05, pos=[0.5, 0.1])
 
         self.startPrompt = visual.TextStim(
             self.window, text=CONF["instructions"]["startPrompt"], height=0.05, pos=[0.5, -0.2])
 
-        self.cue = visual.TextStim(self.window, pos = [0.87,0])
+        self.cue = visual.TextStim(self.window, pos=[0.87, 0])
 
         # Setup fixation box
         self.fixation_box = visual.Rect(
-           
             self.window, height=CONF["fixation"]["height"],
-            pos=[0,0],
             width=CONF["fixation"]["width"],
-            fillColor=CONF["fixation"]["fillColor"],
-            lineColor=CONF["screen"]["color"],
+            fillColor=CONF["fixation"]["boxColor"],
+            lineColor=CONF["fixation"]["boxColor"],
             units=CONF["screen"]["units"])
 
         # setup stopwatch
@@ -110,6 +114,8 @@ class Screen:
         speed = round(1000*time)
         text = "{}   ".format(speed)  # hack to show the relevant digits
         self.counter.setText(text)
+
+        speed = speed/1000
         if colored:
             if speed < self.CONF["task"]["minTime"]:
                 self.set_counter_color(self.CONF["task"]["earlyColor"])

@@ -170,12 +170,10 @@ while mainTimer.getTime() > 0:
         if reactionTime > CONF["task"]["maxTime"]:
             datalog["late"] = True
             scorer.scores["late"] += 1
-
-        scorer.scores["RTsum"] += reactionTime
-        scorer.scores["tot"] += 1
+        elif reactionTime > CONF["task"]["minTime"]:
+            scorer.newRT(reactionTime)
 
     # save data to file
-
     datalog.flush()
 
 ###########

@@ -22,7 +22,8 @@ CONF.update({
     },
     "instructions": {
         "text": "Please fixate on the red square. When it is replaced by a counter, press the F key as fast as possible. Answers slower than .5 seconds are considered lapses.",
-        "startPrompt": "Press any key to start. Press q to quit."
+        "startPrompt": "Press any key to start. Press q to quit.",
+        "alarm": "horn.wav"
     },
 })
 

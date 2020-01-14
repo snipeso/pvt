@@ -25,7 +25,7 @@ datalog = Datalog(OUTPUT_FOLDER=os.path.join(
     'output', CONF["task"]["name"]), CONF=CONF)  # This is for saving data
 kb = keyboard.Keyboard()
 mainClock = core.MonotonicClock()  # starts clock for timestamping events
-Alarm = sound.Sound('600', secs=0.01, sampleRate=44100,
+Alarm = sound.Sound(os.path.join('sounds', CONF["instructions"]["alarm"]), secs=0.01, sampleRate=44100,
                     stereo=True)  # TODO: make it alarm-like
 scorer = Scorer()
 
@@ -150,7 +150,7 @@ while mainTimer.getTime() > 0:
     # Outcome
 
     if missed:
-        # Alarm.play()
+        Alarm.play()
         logging.info("participant fell asleep")
         datalog["missed"] = True
         scorer.scores["missed"] += 1

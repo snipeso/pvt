@@ -25,3 +25,7 @@ CONF.update({
         "startPrompt": "Press any key to start. Press q to quit."
     },
 })
+
+
+CONF["screen"]["size"] = CONF["screen"]["size"] if CONF["screen"]["full"] else CONF["screen"]["debugSize"]
+CONF["screen"]["resolution"] = CONF["screen"]["resolution"] if CONF["screen"]["full"] else CONF["screen"]["debugResolution"]

@@ -17,8 +17,7 @@
 
 ## Todo
 
-- fix visuals
-- include audio
+- add triggers
 
 ## Eventual TODOs
 

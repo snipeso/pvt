@@ -39,7 +39,7 @@ def quitExperimentIf(toQuit):
 
     if toQuit:
 
-        scorer.getScore()  # TODO: see if this is ok to do
+        scorer.getScore()  # TODO: see if this is ok to do, and how is this possible??
         logging.info('quit experiment')
         sys.exit(2)  # TODO: make version where quit is sys 1 vs sys 2
 
@@ -150,9 +150,16 @@ while mainTimer.getTime() > 0:
     # Outcome
 
     if missed:
+        # TODO, send alarm trigger
+
+        # play alarm to wake participant up
+        alarmTime = mainClock.getTime()
         Alarm.play()
+
+        # log
         logging.info("participant fell asleep")
         datalog["missed"] = True
+        datalog["alarmTime"] = alarmTime
         scorer.scores["missed"] += 1
 
     else:

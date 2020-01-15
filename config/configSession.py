@@ -19,4 +19,10 @@ CONF = {
         "cue": 1
     },
     "showInstructions": True,
+    "trigger": {
+        "serial_device": "/dev/ttyUSB0", #this is computer and OS and port and random specific. see readme on how to get
+        "labels": {
+            "" #TODO
+        }
+    }
 }

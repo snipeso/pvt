@@ -6,6 +6,7 @@ import sys
 
 from screen import Screen
 from scorer import Scorer
+from trigger import Trigger
 from psychopy import core, event, sound
 from psychopy.hardware import keyboard
 
@@ -28,6 +29,7 @@ mainClock = core.MonotonicClock()  # starts clock for timestamping events
 Alarm = sound.Sound(os.path.join('sounds', CONF["instructions"]["alarm"]), secs=0.01, sampleRate=44100,
                     stereo=True)  # TODO: make it alarm-like
 scorer = Scorer()
+trigger = Trigger(CONF["trigger"]["serial_device"], CONF["triger"]["labels"])
 
 logging.info('Initialization completed')
 
@@ -63,6 +65,7 @@ screen.show_blank()
 logging.info('Starting blank period')
 
 # TODO: send start trigger
+
 core.wait(CONF["timing"]["rest"])
 # TODO: send end wait trigger
 

@@ -12,7 +12,7 @@ class Trigger:
 
         self._delay = 0.01
         self._labels = labels
-        
+
         try:
             self._port = serial.Serial(serial_device)
             
@@ -24,7 +24,8 @@ class Trigger:
         time.sleep(self._delay)
        
 
-    def send_trigger(self, name):
+    def send(self, name):
+        #TODO: if name not in list, throw error
         try:
             self._write(self._labels[name])
         except:
@@ -39,4 +40,4 @@ class Trigger:
 #     "end": 0x02
 # })
 
-# t.send_trigger("start")
+# t.send("start")

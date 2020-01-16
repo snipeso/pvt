@@ -64,10 +64,10 @@ if CONF["showInstructions"]:
 screen.show_blank()
 logging.info('Starting blank period')
 
-# TODO: send start trigger
-
+trigger.send("StartBlank")
 core.wait(CONF["timing"]["rest"])
-# TODO: send end wait trigger
+trigger.send("EndBlank")
+
 
 # Cue start of the experiment
 screen.show_cue("START")
@@ -134,7 +134,7 @@ while mainTimer.getTime() > 0:
     def onFlip():  # TODO: does this go somewhere else?
         kb.clock.reset()
         datalog["startTime"] = mainClock.getTime()
-        # TODO: send trigger
+        trigger.send("Stim")
 
     # run stopwatch
     screen.window.callOnFlip(onFlip)
@@ -153,11 +153,13 @@ while mainTimer.getTime() > 0:
     # Outcome
 
     if missed:
-        # TODO, send alarm trigger
+        
 
         # play alarm to wake participant up
         alarmTime = mainClock.getTime()
+        trigger.send("ALARM")
         Alarm.play()
+
 
         # log
         logging.info("participant fell asleep")
@@ -196,9 +198,11 @@ core.wait(CONF["timing"]["cue"])
 # Blank screen for final rest
 screen.show_blank()
 logging.info('Starting blank period')
-# TODO: send start trigger
+
+trigger.send("StartBlank")
 core.wait(CONF["timing"]["rest"])
-# TODO: send end wait trigger
+trigger.send("EndBlank")
+
 
 logging.info('Finished')
 

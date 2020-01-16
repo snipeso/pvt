@@ -6,6 +6,7 @@ import sys
 
 from screen import Screen
 from scorer import Scorer
+from trigger import Trigger
 from psychopy import core, event, sound
 from psychopy.hardware import keyboard
 
@@ -25,9 +26,10 @@ datalog = Datalog(OUTPUT_FOLDER=os.path.join(
     'output', CONF["task"]["name"]), CONF=CONF)  # This is for saving data
 kb = keyboard.Keyboard()
 mainClock = core.MonotonicClock()  # starts clock for timestamping events
-Alarm = sound.Sound('600', secs=0.01, sampleRate=44100,
+Alarm = sound.Sound(os.path.join('sounds', CONF["instructions"]["alarm"]), secs=0.01, sampleRate=44100,
                     stereo=True)  # TODO: make it alarm-like
 scorer = Scorer()
+trigger = Trigger(CONF["trigger"]["serial_device"], CONF["triger"]["labels"])
 
 logging.info('Initialization completed')
 
@@ -39,7 +41,7 @@ def quitExperimentIf(toQuit):
 
     if toQuit:
 
-        scorer.getScore()  # TODO: see if this is ok to do
+        scorer.getScore()  # TODO: see if this is ok to do, and how is this possible??
         logging.info('quit experiment')
         sys.exit(2)  # TODO: make version where quit is sys 1 vs sys 2
 
@@ -63,6 +65,7 @@ screen.show_blank()
 logging.info('Starting blank period')
 
 # TODO: send start trigger
+
 core.wait(CONF["timing"]["rest"])
 # TODO: send end wait trigger
 
@@ -150,9 +153,16 @@ while mainTimer.getTime() > 0:
     # Outcome
 
     if missed:
-        # Alarm.play()
+        # TODO, send alarm trigger
+
+        # play alarm to wake participant up
+        alarmTime = mainClock.getTime()
+        Alarm.play()
+
+        # log
         logging.info("participant fell asleep")
         datalog["missed"] = True
+        datalog["alarmTime"] = alarmTime
         scorer.scores["missed"] += 1
 
     else:

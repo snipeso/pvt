@@ -20,7 +20,7 @@ CONF = {
     },
     "showInstructions": True,
     "trigger": {
-        "serial_device": "/dev/ttyUSB0", #this is computer and OS and port and random specific. see readme on how to get
+        "serial_device": "COM3", #this is computer and OS and port and random specific. see readme on how to get
         "labels": {
             "Start": 0x01,
             "End": 0x02,
@@ -29,7 +29,7 @@ CONF = {
             "BadResponse": 0x05,
             "StartBlank": 0x06,
             "EndBlank": 0x07,
-            "ALARM", 0x08,
+            "ALARM": 0x08,
         }
     }
 }

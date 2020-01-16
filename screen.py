@@ -102,6 +102,7 @@ class Screen:
 
     def flash_fixation_box(self, color):
         self.fixation_box.fillColor = color
+        self.fixation_box.lineColor = color
         self.fixation_box.draw()
         self.window.flip()
 

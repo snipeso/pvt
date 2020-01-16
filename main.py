@@ -68,6 +68,8 @@ trigger.send("StartBlank")
 core.wait(CONF["timing"]["rest"])
 trigger.send("EndBlank")
 
+# import sys
+# sys.exit(1)
 
 # Cue start of the experiment
 screen.show_cue("START")
@@ -83,7 +85,6 @@ sequence_number = 0
 mainTimer = core.CountdownTimer(CONF["task"]["duration"])
 
 while mainTimer.getTime() > 0:
-
     # log
     sequence_number += 1
     logging.info('Starting iteration #%s', sequence_number)
@@ -148,6 +149,7 @@ while mainTimer.getTime() > 0:
         if Timer.getTime() > CONF["task"]["warningTime"]:
             missed = True
             break
+    trigger.send("Response")
 
     #########
     # Outcome

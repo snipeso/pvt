@@ -6,6 +6,12 @@
 2. `source env/bin/activate` to enter env
 3. `pip install -r requirements.txt` (run over and over until no more errors)
 
+### alternatively, install env for all projects:
+
+1. `cp -r hemi-pvt/env/ psychopyEnv`
+2. `pyvenv psychopyEnv/`
+3. `source psychopyEnv/bin/activate`
+
 # create requirements:
 
 1. `pip freeze > requirements.txt`

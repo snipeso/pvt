@@ -1,3 +1,5 @@
+import logging
+
 CONF = {
     "participant": "01",
     "session": "1",

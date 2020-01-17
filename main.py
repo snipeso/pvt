@@ -29,7 +29,7 @@ mainClock = core.MonotonicClock()  # starts clock for timestamping events
 Alarm = sound.Sound(os.path.join('sounds', CONF["instructions"]["alarm"]), secs=0.01, sampleRate=44100,
                     stereo=True)  # TODO: make it alarm-like
 scorer = Scorer()
-trigger = Trigger(CONF["trigger"]["serial_device"], CONF["trigger"]["labels"], CONF["sendTriggers"])
+trigger = Trigger(CONF["trigger"]["serial_device"], CONF["sendTriggers"], CONF["trigger"]["labels"])
 
 logging.info('Initialization completed')
 

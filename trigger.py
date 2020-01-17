@@ -4,11 +4,11 @@ import logging
 
 
 class Trigger:
-    def __init__(self, serial_device, labels={}, shouldTrigger):
+    def __init__(self, serial_device, shouldTrigger, labels={}):
 
         self._delay = 0.01
         self._labels = labels
-
+        print(shouldTrigger)
         if shouldTrigger:
             self._port = serial.Serial(serial_device)
         

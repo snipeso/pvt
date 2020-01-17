@@ -107,11 +107,11 @@ class Screen:
         self.window.flip()
 
     def start_countdown(self):
-        self.show_counter(0)
+        self.draw_counter(0)
         self.set_counter_color("white")
         self.window.flip()
 
-    def show_counter(self, time, colored=False):
+    def draw_counter(self, time, colored=False):
         speed = round(1000*time)
         text = "{}   ".format(speed)  # hack to show the relevant digits
         self.counter.setText(text)
@@ -133,7 +133,7 @@ class Screen:
 
     def show_result(self, time):
         # gives different color stimulus depending on result
-        speed = self.show_counter(time, colored=True)
+        speed = self.draw_counter(time, colored=True)
         # self.counter.setText(str(speed))
 
         self.counter.draw()

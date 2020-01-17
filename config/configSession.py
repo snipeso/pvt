@@ -1,6 +1,8 @@
 CONF = {
     "participant": "01",
     "session": "1",
+    "showInstructions": True,
+    "sendTriggers": False,
     "screen": {
         "full": True,
         "color": "#6B6B6B",
@@ -18,7 +20,6 @@ CONF = {
         "overview": 1,
         "cue": 1
     },
-    "showInstructions": True,
     "trigger": {
         "serial_device": "COM3", #this is computer and OS and port and random specific. see readme on how to get
         "labels": {
@@ -30,6 +31,7 @@ CONF = {
             "StartBlank": 0x06,
             "EndBlank": 0x07,
             "ALARM": 0x08,
+            "Quit": 0x09
         }
     }
 }

@@ -29,7 +29,7 @@ mainClock = core.MonotonicClock()  # starts clock for timestamping events
 Alarm = sound.Sound(os.path.join('sounds', CONF["instructions"]["alarm"]), secs=0.01, sampleRate=44100,
                     stereo=True)  # TODO: make it alarm-like
 scorer = Scorer()
-trigger = Trigger(CONF["trigger"]["serial_device"], CONF["trigger"]["labels"])
+trigger = Trigger(CONF["trigger"]["serial_device"], CONF["trigger"]["labels"], CONF["sendTriggers"])
 
 logging.info('Initialization completed')
 
@@ -41,9 +41,17 @@ def quitExperimentIf(toQuit):
 
     if toQuit:
 
-        scorer.getScore()  # TODO: see if this is ok to do, and how is this possible??
+        scorer.getScore()
         logging.info('quit experiment')
-        sys.exit(2)  # TODO: make version where quit is sys 1 vs sys 2
+        trigger.send("Quit")
+        trigger.reset()
+        sys.exit(2)
+
+def onFlip():
+    "Send and restart clocks as soon as screen changes"
+    trigger.send("Stim")
+    kb.clock.reset()
+    datalog["startTime"] = mainClock.getTime()
 
 ##############
 # Introduction
@@ -103,6 +111,7 @@ while mainTimer.getTime() > 0:
     # start
     delayTimer = core.CountdownTimer(delay)
     screen.show_fixation_box()
+    trigger.send("Start")
 
     extraKeys = []
     while delayTimer.getTime() > 0:
@@ -111,7 +120,7 @@ while mainTimer.getTime() > 0:
         extraKey = kb.getKeys()
         if extraKey:
             quitExperimentIf(extraKey[0].name == 'q')
-
+            trigger.send("BadResponse")
             extraKeys.append(mainClock.getTime())
 
             # Flash the fixation box to indicate unexpected key press
@@ -131,31 +140,27 @@ while mainTimer.getTime() > 0:
     Timer = core.Clock()
     keys = []
     missed = False
-
-    def onFlip():  # TODO: does this go somewhere else?
-        kb.clock.reset()
-        datalog["startTime"] = mainClock.getTime()
-        trigger.send("Stim")
+        
 
     # run stopwatch
     screen.window.callOnFlip(onFlip)
     screen.start_countdown()
     while not keys:
         keys = kb.getKeys(waitRelease=False)
-        screen.show_counter(Timer.getTime())
+        screen.draw_counter(Timer.getTime())
         screen.window.flip()
 
         # end if no answer comes in time
         if Timer.getTime() > CONF["task"]["warningTime"]:
             missed = True
             break
-    trigger.send("Response")
+        elif keys:
+            trigger.send("Response")
 
     #########
     # Outcome
 
-    if missed:
-        
+    if missed:   
 
         # play alarm to wake participant up
         alarmTime = mainClock.getTime()
@@ -195,6 +200,7 @@ while mainTimer.getTime() > 0:
 
 # End main experiment
 screen.show_cue("DONE!")
+trigger.send("End")
 core.wait(CONF["timing"]["cue"])
 
 # Blank screen for final rest
@@ -207,6 +213,5 @@ trigger.send("EndBlank")
 
 
 logging.info('Finished')
-
-
-quitExperimentIf(True)
+scorer.getScore()
+trigger.reset()

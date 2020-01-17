@@ -1,8 +1,9 @@
 import logging
+import os
 
 CONF = {
-    "participant": "01",
-    "session": "1",
+    "participant": os.environ.get("participant", "00"),
+    "session": os.environ.get("session", "0"),
     "showInstructions": True,
     "sendTriggers": False,
     "loggingLevel": logging.WARNING,

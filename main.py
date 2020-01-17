@@ -3,6 +3,7 @@ import os
 import random
 import time
 import sys
+import datetime
 
 from screen import Screen
 from scorer import Scorer
@@ -22,8 +23,8 @@ logging.basicConfig(
 )  # This is a log for debugging the script, and prints messages to the terminal
 
 screen = Screen(CONF)
-datalog = Datalog(OUTPUT_FOLDER=os.path.join(
-    'output', CONF["task"]["name"]), CONF=CONF)  # This is for saving data
+datalog = Datalog(OUTPUT_FOLDER=os.path.join('output', datetime.datetime.now().strftime("%Y-%m-%d")), CONF=CONF)  # This is for saving data
+
 kb = keyboard.Keyboard()
 mainClock = core.MonotonicClock()  # starts clock for timestamping events
 Alarm = sound.Sound(os.path.join('sounds', CONF["instructions"]["alarm"]), secs=0.01, sampleRate=44100,

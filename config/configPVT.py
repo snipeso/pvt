@@ -16,8 +16,8 @@ CONF.update({
         "width": .2,
         "boxColor": "red",
         "errorFlash": 0.1,  # in seconds, how long to flash box if key pushed during delay
-        "minDelay": 1,  # in seconds, minimum delay between stimuli
-        "maxDelay": 3,  # maximum delay between stimuli
+        "minDelay": 2,  # in seconds, minimum delay between stimuli
+        "maxDelay": 10,  # maximum delay between stimuli
         "scoreTime": 0.5  # in seconds, time to show final score
     },
     "instructions": {

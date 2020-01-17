@@ -30,7 +30,7 @@
 
 ## Todo
 
-- add triggers
+- make counter font size cm dependent
 
 ## Eventual TODOs
 

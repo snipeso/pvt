@@ -19,12 +19,13 @@ CONF = {
         "size": [34.4, 19.3]
     },
     "timing": {
-        "rest":  1,  # 60,
+        "rest":  1,  # 60, !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         "overview": 1,
         "cue": 1
     },
     "trigger": {
-        "serial_device": "COM3", #this is computer and OS and port and random specific. see readme on how to get
+        # this is computer and OS and port and random specific. see readme on how to get
+        "serial_device": "COM3",
         "labels": {
             "Start": 0x01,
             "End": 0x02,

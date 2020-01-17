@@ -23,14 +23,16 @@ logging.basicConfig(
 )  # This is a log for debugging the script, and prints messages to the terminal
 
 screen = Screen(CONF)
-datalog = Datalog(OUTPUT_FOLDER=os.path.join('output', datetime.datetime.now().strftime("%Y-%m-%d")), CONF=CONF)  # This is for saving data
+datalog = Datalog(OUTPUT_FOLDER=os.path.join('output', datetime.datetime.now(
+).strftime("%Y-%m-%d")), CONF=CONF)  # This is for saving data
 
 kb = keyboard.Keyboard()
 mainClock = core.MonotonicClock()  # starts clock for timestamping events
 Alarm = sound.Sound(os.path.join('sounds', CONF["instructions"]["alarm"]), secs=0.01, sampleRate=44100,
                     stereo=True)  # TODO: make it alarm-like
 scorer = Scorer()
-trigger = Trigger(CONF["trigger"]["serial_device"], CONF["sendTriggers"], CONF["trigger"]["labels"])
+trigger = Trigger(CONF["trigger"]["serial_device"],
+                  CONF["sendTriggers"], CONF["trigger"]["labels"])
 
 logging.info('Initialization completed')
 
@@ -47,6 +49,7 @@ def quitExperimentIf(toQuit):
         trigger.send("Quit")
         trigger.reset()
         sys.exit(2)
+
 
 def onFlip():
     "Send and restart clocks as soon as screen changes"
@@ -141,7 +144,6 @@ while mainTimer.getTime() > 0:
     Timer = core.Clock()
     keys = []
     missed = False
-        
 
     # run stopwatch
     screen.window.callOnFlip(onFlip)
@@ -161,13 +163,12 @@ while mainTimer.getTime() > 0:
     #########
     # Outcome
 
-    if missed:   
+    if missed:
 
         # play alarm to wake participant up
         alarmTime = mainClock.getTime()
         trigger.send("ALARM")
         Alarm.play()
-
 
         # log
         logging.info("participant fell asleep")

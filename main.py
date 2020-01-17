@@ -17,7 +17,7 @@ from config.configPVT import CONF
 
 # Initialize screen, logger and inputs
 logging.basicConfig(
-    level=logging.WARNING,
+    level=CONF["loggingLevel"],
     format='%(asctime)s-%(levelname)s-%(message)s',
 )  # This is a log for debugging the script, and prints messages to the terminal
 

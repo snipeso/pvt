@@ -3,6 +3,7 @@ CONF = {
     "session": "1",
     "showInstructions": True,
     "sendTriggers": False,
+    "loggingLevel": logging.WARNING,
     "screen": {
         "full": True,
         "color": "#6B6B6B",

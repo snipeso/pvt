@@ -11,9 +11,8 @@ class Trigger:
         print(shouldTrigger)
         if shouldTrigger:
             self._port = serial.Serial(serial_device)
-        
-        self.shouldTrigger = shouldTrigger
 
+        self.shouldTrigger = shouldTrigger
 
     def _write(self, n):
         if self.shouldTrigger:
@@ -22,12 +21,10 @@ class Trigger:
             self._port.write([0x00])
         else:
             print("trigger: ", n)
-       
 
     def send(self, name):
-        #TODO: if name not in list, throw error
+        # TODO: if name not in list, throw error
         self._write(self._labels[name])
-        
 
     def reset(self):
         self._write(0xFF)

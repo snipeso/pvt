@@ -28,8 +28,8 @@ datalog = Datalog(OUTPUT_FOLDER=os.path.join('output', datetime.datetime.now(
 
 kb = keyboard.Keyboard()
 mainClock = core.MonotonicClock()  # starts clock for timestamping events
-Alarm = sound.Sound(os.path.join('sounds', CONF["instructions"]["alarm"]), secs=0.01, sampleRate=44100,
-                    stereo=True)  # TODO: make it alarm-like
+Alarm = sound.Sound(os.path.join('sounds', CONF["instructions"]["alarm"]),
+                    stereo=True)
 scorer = Scorer()
 trigger = Trigger(CONF["trigger"]["serial_device"],
                   CONF["sendTriggers"], CONF["trigger"]["labels"])
@@ -80,8 +80,6 @@ trigger.send("StartBlank")
 core.wait(CONF["timing"]["rest"])
 trigger.send("EndBlank")
 
-# import sys
-# sys.exit(1)
 
 # Cue start of the experiment
 screen.show_cue("START")

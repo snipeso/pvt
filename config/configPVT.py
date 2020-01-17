@@ -18,7 +18,7 @@ CONF.update({
         "errorFlash": 0.1,  # in seconds, how long to flash box if key pushed during delay
         "minDelay": 2,  # in seconds, minimum delay between stimuli
         "maxDelay": 10,  # maximum delay between stimuli
-        "scoreTime": 0.5  # in seconds, time to show final score
+        "scoreTime": 1  # in seconds, time to show final score
     },
     "instructions": {
         "text": "Please fixate on the red square. When it is replaced by a counter, press the shift key as fast as possible. Answers slower than .5 seconds are considered lapses.",

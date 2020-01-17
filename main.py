@@ -83,6 +83,7 @@ trigger.send("EndBlank")
 
 # Cue start of the experiment
 screen.show_cue("START")
+trigger.send("Start")
 core.wait(CONF["timing"]["cue"])
 
 ##########################################################################
@@ -113,7 +114,6 @@ while mainTimer.getTime() > 0:
     # start
     delayTimer = core.CountdownTimer(delay)
     screen.show_fixation_box()
-    trigger.send("Start")
 
     extraKeys = []
     while delayTimer.getTime() > 0:

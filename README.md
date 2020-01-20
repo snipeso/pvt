@@ -30,17 +30,10 @@
 
 ## Todo
 
-- make counter font size cm dependent
-
 ## Eventual TODOs
 
-- Provide results
-- check that the task is as described in paper
-- testing git
+# Credits:
 
-# External resources
+Design:
 
-Sounds:
-
-- horn.wav: https://freesound.org/people/mcpable/sounds/131930/
-- design: Basner, M., & Dinges, D. F. (2011). Maximizing sensitivity of the psychomotor vigilance test (PVT) to sleep loss. Sleep, 34(5), 581-591.
+- Basner, M., & Dinges, D. F. (2011). Maximizing sensitivity of the psychomotor vigilance test (PVT) to sleep loss. Sleep, 34(5), 581-591.

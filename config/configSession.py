@@ -8,7 +8,7 @@ CONF = {
     "sendTriggers": False,
     "loggingLevel": logging.WARNING,
     "screen": {
-        "full": True,
+        "full": False,
         "color": "#6B6B6B",
         "monitor": 'Extreme',  # "testMonitor",
         # screen size when not fullscreen

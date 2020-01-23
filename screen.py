@@ -58,8 +58,6 @@ class Screen:
             units=CONF["screen"]["units"])
 
         # setup stopwatch
-        fm = textbox.getFontManager()
-        fonts = fm.getFontFamilyStyles()
 
         # self.counter = visual.TextStim(self.window)
         self.counter = visual.TextBox(window=self.window,
@@ -74,7 +72,7 @@ class Screen:
                                       pos=(0.05, 0),
                                       grid_horz_justification='center',
                                       grid_vert_justification='center',
-                                      # units='norm',
+                                      #   units='cm', #TODO: get this to work
                                       )
 
     def show_overview(self):

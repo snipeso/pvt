@@ -1,0 +1,54 @@
+{
+  "participant": "00",
+  "session": "0",
+  "version": "demo",
+  "#COMMENTavailableVersions": ["main", "demo", "debug"],
+  "loggingLevel": {
+    "versionMain": "warning",
+    "versionDemo": "info",
+    "versionDebug": "info"
+  },
+  "screen": {
+    "resolution": { "versionMain": [3840, 2160], "versionDebug": [1000, 1000] },
+    "size": { "versionMain": [34.4, 19.3], "versionDebug": [10, 10] },
+    "units": "cm",
+    "full": { "versionMain": true, "versionDemo": true, "versionDebug": false }
+  },
+  "sendTriggers": {
+    "versionMain": true,
+    "versionDemo": false,
+    "versionDebug": false
+  },
+  "showInstructions": {
+    "versionMain": true,
+    "versionDemo": false,
+    "versionDebug": false
+  },
+  "timing": {
+    "overview": 1,
+    "cue": 1,
+    "rest": { "versionMain": 60, "versionDemo": 1, "versionDebug": 1 }
+  },
+  "instructionSizes": {
+    "taskHeight": 0.5,
+    "taskPos": [0, 0],
+    "sessionHeight": 0.5,
+    "sessionPos": [0, -3],
+    "instructionsHeight": 0.5,
+    "startPromptHeight": 0.5
+  },
+  "trigger": {
+    "serial_device": "COM3",
+    "labels": {
+      "Start": 1,
+      "End": 2,
+      "Stim": 3,
+      "Response": 4,
+      "BadResponse": 5,
+      "StartBlank": 6,
+      "EndBlank": 7,
+      "ALARM": 8,
+      "Quit": 9
+    }
+  }
+}

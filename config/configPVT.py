@@ -1,9 +1,10 @@
-from config.configSession import CONF
+from config.updateConfig import UpdateConfig
 
-CONF.update({
+pvtCONF = {
     "task": {
         "name": "PVT",
-        "duration": 10*60,  # in seconds, duration of whole experiment
+        # in seconds, duration of whole experiment
+        "duration": {"versionMain": 10*60, "versionDemo": 60, "versionDebug": 2*60},
         "minTime": .100,  # in miliseconds, min time to be considered a valid RT
         "maxTime": .500,  # over this, RT considered a lapse
         "warningTime": 5,  # in seconds, time before a tone plays to wake participant up
@@ -12,12 +13,12 @@ CONF.update({
         "lateColor": "red",
     },
     "fixation": {
-        "height": .1,
-        "width": .2,
+        "height": 1,
+        "width": 3,
         "boxColor": "red",
         "errorFlash": 0.1,  # in seconds, how long to flash box if key pushed during delay
         "minDelay": 2,  # in seconds, minimum delay between stimuli
-        "maxDelay": 10,  # maximum delay between stimuli
+        "maxDelay": {"versionMain": 10, "versionDemo": 10, "versionDebug": 3},
         "scoreTime": 1  # in seconds, time to show final score
     },
     "instructions": {
@@ -25,8 +26,9 @@ CONF.update({
         "startPrompt": "Press any key to start. Press q to quit.",
         "alarm": "horn.wav"
     },
-})
+}
 
+updateCofig = UpdateConfig()
+updateCofig.addContent(pvtCONF)
 
-CONF["screen"]["size"] = CONF["screen"]["size"] if CONF["screen"]["full"] else CONF["screen"]["debugSize"]
-CONF["screen"]["resolution"] = CONF["screen"]["resolution"] if CONF["screen"]["full"] else CONF["screen"]["debugResolution"]
+CONF = updateCofig.getConfig()

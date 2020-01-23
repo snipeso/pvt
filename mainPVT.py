@@ -16,33 +16,41 @@ from config.configPVT import CONF
 
 #########################################################################
 
+######################################
 # Initialize screen, logger and inputs
+
 logging.basicConfig(
     level=CONF["loggingLevel"],
     format='%(asctime)s-%(levelname)s-%(message)s',
 )  # This is a log for debugging the script, and prints messages to the terminal
 
 screen = Screen(CONF)
-datalog = Datalog(OUTPUT_FOLDER=os.path.join('output', datetime.datetime.now(
-).strftime("%Y-%m-%d")), CONF=CONF)  # This is for saving data
+
+datalog = Datalog(OUTPUT_FOLDER=os.path.join(
+    'output', datetime.datetime.now(
+    ).strftime("%Y-%m-%d")), CONF=CONF)  # This is for saving data
 
 kb = keyboard.Keyboard()
+
 mainClock = core.MonotonicClock()  # starts clock for timestamping events
+
 Alarm = sound.Sound(os.path.join('sounds', CONF["instructions"]["alarm"]),
                     stereo=True)
 scorer = Scorer()
+
 trigger = Trigger(CONF["trigger"]["serial_device"],
                   CONF["sendTriggers"], CONF["trigger"]["labels"])
 
 logging.info('Initialization completed')
 
+
 #########################################################################
 
 
-def quitExperimentIf(toQuit):
+def quitExperimentIf(shouldQuit):
     "Quit experiment if condition is met"
 
-    if toQuit:
+    if shouldQuit:
 
         scorer.getScore()
         logging.info('quit experiment')

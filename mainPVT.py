@@ -106,7 +106,7 @@ mainTimer = core.CountdownTimer(CONF["task"]["duration"])
 while mainTimer.getTime() > 0:
     # log
     sequence_number += 1
-    trigger.sendTriggerId()
+    datalog["trialID"] = trigger.sendTriggerId()
     logging.info('Starting iteration #%s', sequence_number)
 
     ###############################

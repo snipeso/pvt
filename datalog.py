@@ -24,6 +24,16 @@ class Datalog:
 
         self.CONF = CONF
 
+        # save configuration to a file
+        CONF_FILE_NAME = "{}_{}_{}_{}_configuration".format(
+            CONF["participant"],
+            CONF["session"],
+            CONF["task"]["name"],
+            datetime.datetime.now().strftime("%Y-%m-%d-%H-%M"))
+
+        with open("{}.log".format(os.path.join(OUTPUT_FOLDER, CONF_FILE_NAME)), "w+") as f:
+            json.dump(CONF, f)
+
         self.data = {}
 
     def __setitem__(self, key, value):

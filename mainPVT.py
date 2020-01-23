@@ -34,7 +34,7 @@ kb = keyboard.Keyboard()
 
 mainClock = core.MonotonicClock()  # starts clock for timestamping events
 
-Alarm = sound.Sound(os.path.join('sounds', CONF["instructions"]["alarm"]),
+alarm = sound.Sound(os.path.join('sounds', CONF["instructions"]["alarm"]),
                     stereo=True)
 scorer = Scorer()
 
@@ -175,10 +175,10 @@ while mainTimer.getTime() > 0:
         # play alarm to wake participant up
         alarmTime = mainClock.getTime()
         trigger.send("ALARM")
-        Alarm.play()
+        alarm.play()
 
         # log
-        logging.info("participant fell asleep")
+        logging.warning("participant fell asleep")
         datalog["missed"] = True
         datalog["alarmTime"] = alarmTime
         scorer.scores["missed"] += 1

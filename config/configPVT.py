@@ -24,7 +24,8 @@ pvtCONF = {
     "instructions": {
         "text": "Please fixate on the red square. When it is replaced by a counter, press the shift key as fast as possible. Answers slower than .5 seconds are considered lapses.",
         "startPrompt": "Press any key to start. Press q to quit.",
-        "alarm": "horn.wav"
+        "alarm": "horn.wav",
+        "questionnaireReminder": "answerQuestionnaire.wav"
     },
 }
 

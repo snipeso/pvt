@@ -180,6 +180,7 @@ while mainTimer.getTime() > 0:
         alarmTime = mainClock.getTime()
         trigger.send("ALARM")
         alarm.play()
+        core.wait(2)
 
         # log
         logging.warning("participant fell asleep")

@@ -10,7 +10,7 @@ from scorer import Scorer
 from trigger import Trigger
 from psychopy import core, event, sound
 from psychopy.hardware import keyboard
-
+from pupil_labs import PupilCore
 from datalog import Datalog
 from config.configPVT import CONF
 
@@ -24,11 +24,20 @@ logging.basicConfig(
     format='%(asctime)s-%(levelname)s-%(message)s',
 )  # This is a log for debugging the script, and prints messages to the terminal
 
+
+# needs to be first, so that if it doesn't succeed, it doesn't freeze everything
+eyetracker = PupilCore(ip=CONF["pupillometry"]
+                       ["ip"], port=CONF["pupillometry"]["port"], shouldRecord=CONF["recordEyetracking"])
+
+
+trigger = Trigger(CONF["trigger"]["serial_device"],
+                  CONF["sendTriggers"], CONF["trigger"]["labels"])
+
 screen = Screen(CONF)
 
 datalog = Datalog(OUTPUT_FOLDER=os.path.join(
-    'output', datetime.datetime.now(
-    ).strftime("%Y-%m-%d")), CONF=CONF)  # This is for saving data
+    'output', CONF["participant"] + "_" + CONF["session"],
+    datetime.datetime.now().strftime("%Y-%m-%d")), CONF=CONF)  # This is for saving data
 
 kb = keyboard.Keyboard()
 
@@ -41,9 +50,6 @@ questionnaireReminder = sound.Sound(os.path.join(
     'sounds', CONF["instructions"]["questionnaireReminder"]), stereo=True)
 
 scorer = Scorer()
-
-trigger = Trigger(CONF["trigger"]["serial_device"],
-                  CONF["sendTriggers"], CONF["trigger"]["labels"])
 
 logging.info('Initialization completed')
 
@@ -59,6 +65,7 @@ def quitExperimentIf(shouldQuit):
         scorer.getScore()
         logging.info('quit experiment')
         trigger.send("Quit")
+        eyetracker.stop_recording()
         trigger.reset()
         sys.exit(2)
 
@@ -83,6 +90,11 @@ if CONF["showInstructions"]:
     screen.show_instructions()
     key = event.waitKeys()
     quitExperimentIf(key[0] == 'q')
+
+
+eyetracker.start_recording(os.path.join(
+    CONF["participant"], CONF["session"], CONF["task"]["name"]))
+
 
 # Blank screen for initial rest
 screen.show_blank()
@@ -151,6 +163,7 @@ while mainTimer.getTime() > 0:
     #######################
     # Stimulus presentation
 
+    eyetracker.send_trigger("Stim", {"ISI": delay, "ID": sequence_number})
     # initialize stopwatch
     Timer = core.Clock()
     keys = []
@@ -170,6 +183,7 @@ while mainTimer.getTime() > 0:
             break
         elif keys:
             trigger.send("Response")
+            eyetracker.send_trigger("Response", {"ID": sequence_number})
 
     #########
     # Outcome
@@ -179,6 +193,7 @@ while mainTimer.getTime() > 0:
         # play alarm to wake participant up
         alarmTime = mainClock.getTime()
         trigger.send("ALARM")
+        eyetracker.send_trigger("Alarm")
         alarm.play()
         core.wait(2)
 
@@ -229,6 +244,7 @@ trigger.send("EndBlank")
 logging.info('Finished')
 scorer.getScore()
 trigger.reset()
+eyetracker.stop_recording()
 
 questionnaireReminder.play()
 core.wait(2)

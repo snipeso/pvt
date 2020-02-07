@@ -6,11 +6,12 @@ from time import sleep, time
 
 
 class PupilCore:
-    def __init__(self, ip='127.0.0.1', port=50020, shouldRecord=False):
+    def __init__(self, ip='127.0.0.1', port=50020, shouldRecord=False, shouldSave=False):
         self._ip = ip
         self._port = port
         self._subscribers = {}
         self.shouldRecord = shouldRecord
+        self.shouldSave = shouldSave
 
         if shouldRecord:
             logging.info("Trying to connect to pupil labs...")
@@ -106,7 +107,7 @@ class PupilCore:
             print(label, data)
 
     def getPupildiameter(self):
-        if self.shouldRecord:
+        if self.shouldRecord and self.shouldSave:
             topic = 'pupil.0'
             sub = self.subscribe(topic)
 

@@ -1,28 +1,39 @@
 {
   "participant": "00",
   "session": "0",
-  "version": "demo",
+  "version": "debug",
   "#COMMENTavailableVersions": ["main", "demo", "debug"],
   "loggingLevel": {
     "versionMain": "warning",
     "versionDemo": "info",
     "versionDebug": "info"
   },
-  "screen": {
-    "resolution": { "versionMain": [3840, 2160], "versionDebug": [1000, 1000] },
-    "size": { "versionMain": [34.4, 19.3], "versionDebug": [10, 10] },
-    "units": "cm",
-    "full": { "versionMain": true, "versionDemo": true, "versionDebug": false }
+  "showInstructions": {
+    "versionMain": true,
+    "versionDemo": true,
+    "versionDebug": false
   },
   "sendTriggers": {
     "versionMain": true,
     "versionDemo": false,
     "versionDebug": false
   },
-  "showInstructions": {
+  "recordEyetracking": {
     "versionMain": true,
     "versionDemo": false,
     "versionDebug": false
+  },
+  "savePupillometry": {
+    "versionMain": true,
+    "versionDemo": false,
+    "versionDebug": false
+  },
+  "includeRest": true,
+  "screen": {
+    "resolution": { "versionMain": [3840, 2160], "versionDebug": [1000, 1000] },
+    "size": { "versionMain": [34.4, 19.3], "versionDebug": [10, 10] },
+    "units": "cm",
+    "full": { "versionMain": true, "versionDemo": true, "versionDebug": false }
   },
   "timing": {
     "overview": 1,
@@ -38,7 +49,7 @@
     "startPromptHeight": 0.5
   },
   "trigger": {
-    "serial_device": "COM3",
+    "serial_device": "/dev/usb/lp0",
     "labels": {
       "Start": 1,
       "End": 2,
@@ -50,5 +61,9 @@
       "ALARM": 8,
       "Quit": 9
     }
+  },
+  "pupillometry": {
+    "ip": "192.168.0.11",
+    "port": 50020
   }
 }

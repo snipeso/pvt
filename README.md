@@ -1,38 +1,48 @@
-# pvt
+# PVT
+This is an open source version of the Psychomotor Vigilance Task (PVT), a simple reaction time task, based on Basner et al. (2011).
 
-# Install env
+### The task
+Participants are presented with a red fixation rectangle. Every 2-10s, the rectangle is replaced with a rapidly increasing counter, and participants have to press a button as fast as possible. Their reaction time is presented for 1s, then the waiting period starts again. The whole task lasts 10 minutes. 
 
-1. `pyvenv env` to create env
-2. `source env/bin/activate` to enter env
-3. `pip install -r requirements.txt` (run over and over until no more errors)
+## Instructions
 
-### alternatively, install env for all projects:
+### Pre-requisites
+This library relies only on [Psychopy](https://psychopy.org/).
 
-1. `cp -r hemi-pvt/env/ psychopyEnv`
-2. `pyvenv psychopyEnv/`
-3. `source psychopyEnv/bin/activate`
+Before running an experiment, look at the configurations in "./config/configPVT.py". Here, all the timings, and screen information and more are established. Adjust whatever you like.
 
-# create requirements:
+#### Versions
+This script has 3 versions, **main**, **demo**, and **debug**. The idea is you can set different combinations of settings for the different versions in the configurations file, then very quickly toggle between versions when running the task. If you want, you can add more versions. 
 
-1. `pip freeze > requirements.txt`
+The idea is that "main" is for running the task. It has all the official timings, full screen display, and saves the output. "Demo" is a shorter version, that participants can use to try the task before starting. "Debug" opens a smaller window, and is used for software development.
 
-## install psychopy after error:
+### Steps
+1. Open Psychopy, then run the script "MainPVT.py" to run the task. 
+2. A popup will appear. Provide a participant ID, and session name (if applicable). Select a version.
+3. Instructions on how to perform the task will appear. when ready, press spacebar.
+4. Perform the task. While the instructions say to press "shift", any key except "q" will do. Ideally, use a USB button box to improve system reaction times.
+5. If you want to quit early, press "q". 
 
-1. `sudo apt install python3-dev libx11-dev libasound2-dev portaudio19-dev libusb-1.0-0-dev libxi-dev build-essential libgtk-3-dev gtk3.0 python3-wxgtk3.0`
-2. maybe necessary but probably not: `sudo apt-get install libjpeg-dev libtiff-dev libgtk2.0-dev libsdl1.2-dev freeglut3 freeglut3-dev libnotify-dev libgstreamerd-3-dev`
+### Output
+The results are saved in "./output", in a subfolder defined as "{participant ID}_{session}". Each time you run the task, 2 ".log" files are produced. They can be read by anything, but the data inside is structured as a JSON. For an example on how to read this file, see the MATLAB example of "./read_output/importOutput.m". This function can be used to import the data as a table into MATLAB.
 
-## get access to port for triggers
+Both files include the same timestamp. This means that the files will never be overwritten by later tests. The file ending with "_configuration.log" contains all the information from the configurations used for that task.
 
-- add your user to the right group:
-  - `sudo usermod -a -G dialout $USER`
-- identify the name of the port, and save as "serial_device" in CONF
-  - in terminal, do `ls /dev/tty{USB,ACM}*`, should be just 1
+The data JSON has the following entries:
+- trialID: a sub-dictionary containing:
+  - id: increasing numbers from 0
+  - triggers: the number sent as a trigger to the EEG system. It starts from 192 so as not to interfere with smaller numbered triggers used in the task. When 255 is reached, two seperate triggers are sent.
 
-## Todo
 
-- transfer to JSON
 
-## Eventual TODOs
+
+### Setup
+
+
+### Configurations
+
+
+
 
 # Credits:
 

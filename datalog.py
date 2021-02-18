@@ -3,6 +3,7 @@ import json
 import collections
 import os
 import json
+import csv
 
 # Saves data to a file in a session specific folder
 
@@ -34,6 +35,12 @@ class Datalog:
         with open("{}.log".format(os.path.join(OUTPUT_FOLDER, CONF_FILE_NAME)), "w+") as f:
             json.dump(CONF, f)
 
+        # initialize csv of results
+        self.fieldnames = ['sequence_number', 'delay', 'startTime', 'rt', 'response_key']
+        with open("{}.csv".format(self.path), mode="w",  newline='') as csv_file:
+            writer = csv.DictWriter(csv_file, fieldnames=self.fieldnames)
+            writer.writeheader()
+
         self.data = {}
 
     def __setitem__(self, key, value):
@@ -41,8 +48,14 @@ class Datalog:
         self.data[key] = value
 
     def flush(self):
-        # saves to a file
-        with open("{}.log".format(self.path), "a+") as f:
+        # save log of everything that happened
+        with open("{}.log".format(self.path), mode="a+") as f:
             json.dump(self.data, f)
             f.write("\n")
+            
+        #save csv of results
+        with open("{}.csv".format(self.path), mode="a+",  newline='') as csv_file:
+          
+            writer = csv.DictWriter(csv_file, fieldnames=self.fieldnames,  restval='', extrasaction='ignore')
+            writer.writerow(self.data)
             self.data = {}

@@ -19,8 +19,8 @@ class Trigger:
             self._port.write([n])
             time.sleep(self._delay)
             self._port.write([0x00])
-        else:
-            print("trigger: ", n)
+        # else:
+        #     print("trigger: ", n)
 
     def send(self, name):
         trigger = self._labels[name]

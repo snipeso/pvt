@@ -103,8 +103,8 @@ class PupilCore:
             }
             msg.update(data)
             self.send_message(msg)
-        else:
-            print(label, data)
+        # else:
+        #     print(label, data)
 
     def getPupildiameter(self):
         if self.shouldRecord and self.shouldSave:

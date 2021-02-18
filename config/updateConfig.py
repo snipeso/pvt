@@ -1,6 +1,5 @@
 import os
 import logging
-import git
 import json
 
 
@@ -37,9 +36,6 @@ class UpdateConfig:
         # convert versions
         CONF = self._selectByVersion(CONF,  CONF["version"])
 
-        # save the git version of the experiment
-        repo = git.Repo(search_parent_directories=True)
-        CONF["gitHash"] = repo.head.object.hexsha
 
         # set the logging level
         loggingLevels = {

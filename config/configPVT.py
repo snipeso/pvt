@@ -10,6 +10,21 @@ CONF = {
         "earlyColor": "yellow",
         "lateColor": "red",
     },
+    "screen": {
+        "resolution": { "versionMain": [3840, 2160], "versionDebug": [1000, 1000] }, # screen resolution
+        "size": { "versionMain": [34.4, 19.3], "versionDebug": [10, 10] }, # screen size in cm
+        "units": "cm",
+        "full": { "versionMain": True, "versionDemo": True, "versionDebug": False }
+    },
+    "timing": {
+        "overview": 1, # time to show overview of session/participant etc.
+        "cue": 1, # time saying "START"
+        "rest": { "versionMain": 5, "versionDemo": 1, "versionDebug": 1 } # blank period to get participant adjusted
+    },
+    "pupillometry": {
+    "ip": "192.168.0.11", # using PupilCapture, this is the IP address of the pupillometry computer
+    "port": 50020
+    },
     "fixation": {
         "height": 1,
         "width": 3,
@@ -25,42 +40,30 @@ CONF = {
         "alarm": "horn.wav",
         "questionnaireReminder": "answerQuestionnaire.wav"
     },
-    "loggingLevel": {
-        "versionMain": "warning",
-        "versionDemo": "info",
-        "versionDebug": "info"
-    },
-    "showInstructions": {
+    "showInstructions": { # indicate true or false if you want to display the instructions
         "versionMain": True,
         "versionDemo": True,
         "versionDebug": False
     },
-    "sendTriggers": {
-        "versionMain": True,
+    "playReminder": { # at end of experiment, voice reminds user to answer questionnaire
+        "versionMain": False,
+        "versionDemo": False,
+        "versionDebug": False
+    },
+    "sendTriggers": { # This is for sending triggers to the BrainAmp EEG system over USB
+        "versionMain": False,
         "versionDemo": False,
         "versionDebug": False
     },
     "recordEyetracking": {
-        "versionMain": True,
+        "versionMain": False,
         "versionDemo": False,
         "versionDebug": False
     },
     "savePupillometry": {
-        "versionMain": True,
+        "versionMain": False,
         "versionDemo": False,
         "versionDebug": False
-    },
-    "includeRest": True,
-    "screen": {
-        "resolution": { "versionMain": [3840, 2160], "versionDebug": [1000, 1000] },
-        "size": { "versionMain": [34.4, 19.3], "versionDebug": [10, 10] },
-        "units": "cm",
-        "full": { "versionMain": True, "versionDemo": True, "versionDebug": False }
-    },
-    "timing": {
-        "overview": 1,
-        "cue": 1,
-        "rest": { "versionMain": 60, "versionDemo": 1, "versionDebug": 1 }
     },
     "instructionSizes": {
         "taskHeight": 0.5,
@@ -84,8 +87,9 @@ CONF = {
         "Quit": 9
         }
     },
-    "pupillometry": {
-        "ip": "192.168.0.11",
-        "port": 50020
+    "loggingLevel": {
+        "versionMain": "warning",
+        "versionDemo": "info",
+        "versionDebug": "info"
     }
 }

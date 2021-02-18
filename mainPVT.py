@@ -31,8 +31,6 @@ sessionInfo = sessionInfoDlg.show()
 if not sessionInfoDlg.OK:
      sys.exit(2)
 
-print(sessionInfo)
-
 # Append output to CONF
 CONF["participant"] = sessionInfo[0]
 CONF["session"] = sessionInfo[1]
@@ -45,22 +43,23 @@ logging.basicConfig(
     format='%(asctime)s-%(levelname)s-%(message)s',
 )  # This is a log for debugging the script, and prints messages to the terminal
 
-
-# needs to be first, so that if it doesn't succeed, it doesn't freeze everything
+# initiate contact with eyetracker, if used
 eyetracker = PupilCore(ip=CONF["pupillometry"]
                        ["ip"], port=CONF["pupillometry"]["port"], shouldRecord=CONF["recordEyetracking"])
 
-
+# initiate contact with EEG system
 trigger = Trigger(CONF["trigger"]["serial_device"],
                   CONF["sendTriggers"], CONF["trigger"]["labels"])
 
-
+# Start showing experiment screen
 screen = Screen(CONF)
 
-
+# initiate system for saving data
 datalog = Datalog(OUTPUT_FOLDER=os.path.join(
     'output', CONF["participant"] + "_" + CONF["session"]), CONF=CONF)  # This is for saving data TODO: apply everywhere
 
+
+# initiate psychopy stuff
 kb = keyboard.Keyboard()
 
 mainClock = core.MonotonicClock()  # starts clock for timestamping events
@@ -78,12 +77,11 @@ logging.info('Initialization completed')
 
 #########################################################################
 
-
+# function for quitting
 def quitExperimentIf(shouldQuit):
     "Quit experiment if condition is met"
 
     if shouldQuit:
-
         scorer.getScore()
         logging.warning('quit experiment')
         trigger.send("Quit")
@@ -91,17 +89,17 @@ def quitExperimentIf(shouldQuit):
         trigger.reset()
         sys.exit(2)
 
-
+# function for showing screen stuff
 def onFlip():
     "Send and restart clocks as soon as screen changes"
     trigger.send("Stim")
     kb.clock.reset()
     datalog["startTime"] = mainClock.getTime()
 
+
 ##############
 # Introduction
 ##############
-
 
 # Display overview of session
 screen.show_overview()
@@ -112,7 +110,6 @@ if CONF["showInstructions"]:
     screen.show_instructions()
     key = event.waitKeys()
     quitExperimentIf(key[0] == 'q')
-
 
 eyetracker.start_recording(os.path.join(
     CONF["participant"], CONF["task"]["name"], CONF["session"]))
@@ -181,10 +178,12 @@ while mainTimer.getTime() > 0:
     datalog["extrakeypresses"] = extraKeys
     scorer.scores["extraKeys"] += len(extraKeys)
 
+
     #######################
     # Stimulus presentation
 
     eyetracker.send_trigger("Stim", {"ISI": delay, "ID": sequence_number})
+    
     # initialize stopwatch
     Timer = core.Clock()
     keys = []
@@ -267,5 +266,6 @@ scorer.getScore()
 trigger.reset()
 eyetracker.stop_recording()
 
-questionnaireReminder.play()
-core.wait(2)
+if CONF["playReminder"]:
+    questionnaireReminder.play()
+    core.wait(2)

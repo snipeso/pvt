@@ -4,6 +4,8 @@ This is an open source version of the Psychomotor Vigilance Task (PVT), a simple
 ### The task
 Participants are presented with a red fixation rectangle. Every 2-10s, the rectangle is replaced with a rapidly increasing counter, and participants have to press a button as fast as possible. Their reaction time is presented for 1s, then the waiting period starts again. The whole task lasts 10 minutes. 
 
+The feedback will be given in yellow if the response was <150ms (too early to be real), in green if it is <500ms, and in red otherwise. If the participant does not respond for more than 5 seconds, an alarm goes off.
+
 ## Instructions
 
 ### Pre-requisites

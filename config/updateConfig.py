@@ -4,34 +4,7 @@ import json
 
 
 class UpdateConfig:
-    def __init__(self):
-
-        # start configuration
-        CONF = {}
-
-        # find configuration
-        CONFIG_SESSION_PATHS = [
-            '../configSession.json',
-            '~/configSession.json',
-            './config/configSession.json',
-            './config/configSession_template.json']
-
-        for path in CONFIG_SESSION_PATHS:
-            # stop searching once CONF found
-            if CONF:
-                break
-
-            path = os.path.expanduser(path)
-            if not os.path.isfile(path):
-                continue
-
-            # load CONF when found
-            with open(path, 'r+') as f:
-                CONF = json.load(f)
-
-                # log
-                logging.info("Taking json config from: %s", path)
-                CONF['confJsonPath'] = path
+    def __init__(self, CONF={}):
 
         # convert versions
         CONF = self._selectByVersion(CONF,  CONF["version"])

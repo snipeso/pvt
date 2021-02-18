@@ -1,6 +1,4 @@
-from config.updateConfig import UpdateConfig
-
-pvtCONF = {
+CONF = {
     "task": {
         "name": "PVT",
         # in seconds, duration of whole experiment
@@ -27,9 +25,67 @@ pvtCONF = {
         "alarm": "horn.wav",
         "questionnaireReminder": "answerQuestionnaire.wav"
     },
+    "loggingLevel": {
+        "versionMain": "warning",
+        "versionDemo": "info",
+        "versionDebug": "info"
+    },
+    "showInstructions": {
+        "versionMain": True,
+        "versionDemo": True,
+        "versionDebug": False
+    },
+    "sendTriggers": {
+        "versionMain": True,
+        "versionDemo": False,
+        "versionDebug": False
+    },
+    "recordEyetracking": {
+        "versionMain": True,
+        "versionDemo": False,
+        "versionDebug": False
+    },
+    "savePupillometry": {
+        "versionMain": True,
+        "versionDemo": False,
+        "versionDebug": False
+    },
+    "includeRest": True,
+    "screen": {
+        "resolution": { "versionMain": [3840, 2160], "versionDebug": [1000, 1000] },
+        "size": { "versionMain": [34.4, 19.3], "versionDebug": [10, 10] },
+        "units": "cm",
+        "full": { "versionMain": True, "versionDemo": True, "versionDebug": False }
+    },
+    "timing": {
+        "overview": 1,
+        "cue": 1,
+        "rest": { "versionMain": 60, "versionDemo": 1, "versionDebug": 1 }
+    },
+    "instructionSizes": {
+        "taskHeight": 0.5,
+        "taskPos": [0, 0],
+        "sessionHeight": 0.5,
+        "sessionPos": [0, -3],
+        "instructionsHeight": 0.5,
+        "startPromptHeight": 0.5
+    },
+    "trigger": {
+        "serial_device": "/dev/usb/lp0",
+        "labels": {
+        "Start": 1,
+        "End": 2,
+        "Stim": 3,
+        "Response": 4,
+        "BadResponse": 5,
+        "StartBlank": 6,
+        "EndBlank": 7,
+        "ALARM": 8,
+        "Quit": 9
+        }
+    },
+    "pupillometry": {
+        "ip": "192.168.0.11",
+        "port": 50020
+    }
 }
-
-updateCofig = UpdateConfig()
-updateCofig.addContent(pvtCONF)
-
-CONF = updateCofig.getConfig()

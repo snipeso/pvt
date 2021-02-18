@@ -8,16 +8,37 @@ import datetime
 from screen import Screen
 from scorer import Scorer
 from trigger import Trigger
-from psychopy import core, event, sound
+from psychopy import core, event, sound, gui
 from psychopy.hardware import keyboard
 from pupil_labs import PupilCore
 from datalog import Datalog
+from config.updateConfig import UpdateConfig
 from config.configPVT import CONF
 
 #########################################################################
 
 ######################################
 # Initialize screen, logger and inputs
+
+# get user inputs
+sessionInfoDlg = gui.Dlg(title="Session Info")
+sessionInfoDlg.addField("Participant ID: ")
+sessionInfoDlg.addField('Session: ')
+sessionInfoDlg.addField('Version: ', choices=["main", "demo", "debug"])
+
+sessionInfo = sessionInfoDlg.show()
+
+if not sessionInfoDlg.OK:
+     sys.exit(2)
+
+print(sessionInfo)
+
+# Append output to CONF
+CONF["participant"] = sessionInfo[0]
+CONF["session"] = sessionInfo[1]
+CONF["version"] = sessionInfo[2]
+
+CONF = UpdateConfig(CONF).getConfig()
 
 logging.basicConfig(
     level=CONF["loggingLevel"],
@@ -32,6 +53,7 @@ eyetracker = PupilCore(ip=CONF["pupillometry"]
 
 trigger = Trigger(CONF["trigger"]["serial_device"],
                   CONF["sendTriggers"], CONF["trigger"]["labels"])
+
 
 screen = Screen(CONF)
 

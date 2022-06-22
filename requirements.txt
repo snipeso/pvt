@@ -39,7 +39,7 @@ moviepy==1.0.1
 msgpack==0.6.2
 msgpack-numpy==0.4.4.3
 numexpr==2.7.0
-numpy==1.18.0
+numpy==1.22.0
 opencv-python==4.1.2.30
 openpyxl==3.0.2
 packaging==20.0
